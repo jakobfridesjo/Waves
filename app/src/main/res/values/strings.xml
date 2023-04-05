@@ -5,4 +5,8 @@
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>
     <string name="title_favorites">Favorites</string>
+    <string name="play_button">Play</string>
+    <string name="favorite_button">Favorite</string>
+    <string name="channel_image">Image</string>
+    <string name="channel_name">Channel name</string>
 </resources>
