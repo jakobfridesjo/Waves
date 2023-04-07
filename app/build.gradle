@@ -30,7 +30,6 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures{
-        dataBinding = true
         viewBinding = true
     }
 }
@@ -49,8 +48,5 @@ dependencies {
     def nav_version = "2.5.3"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-    implementation "androidx.navigation:navigation-compose:$nav_version"
 
 }

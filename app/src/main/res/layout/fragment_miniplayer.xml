@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_miniplayer"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:background="@drawable/popup_box"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/channelButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="0"
+            android:background="#F1F1F1"
+            android:contentDescription="@string/channel_image"
+            app:srcCompat="@drawable/ic_no_image_light" />
+
+        <TextView
+            android:id="@+id/channelText"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/channel_name"
+            android:gravity="start|center_vertical"
+            android:paddingStart="6dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/channel_name"
+            android:textAlignment="gravity"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/favoriteButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/favorite_button"
+            app:srcCompat="@drawable/ic_favorite_light" />
+
+        <ImageButton
+            android:id="@+id/playButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/play_button"
+            app:srcCompat="@drawable/ic_play_light" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
