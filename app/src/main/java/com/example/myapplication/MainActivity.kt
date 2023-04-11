@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         mediaPlayer.setAudioAttributes(audioAttributes)
-        mediaPlayer.setDataSource("https://sh.onweb.gr:7129/")
+        mediaPlayer.setDataSource("https://boxradio-edge-00.streamafrica.net/jpopchill")
 
         try {
             mediaPlayer.prepare()

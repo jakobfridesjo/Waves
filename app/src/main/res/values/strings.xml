@@ -10,10 +10,9 @@
     <string name="channel_image">Image</string>
     <string name="channel_name">Channel name</string>
     <string name="favorite_list_description">Favorites list</string>
-    <string name="remove_favorite_ok">Remove</string>
-    <string name="remove_favorite_cancel">Cancel</string>
-    <string name="remove_favorite_channel">Remove the channel?</string>
+    <string name="remove_favorite_channel">Do you want to remove the channel?</string>
     <string name="search_hint">Search for a channel</string>
     <string name="category_button">Category</string>
-
+    <string name="remove">Remove</string>
+    <string name="cancel">Cancel</string>
 </resources>
