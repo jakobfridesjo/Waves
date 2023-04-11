@@ -2,7 +2,7 @@
 
     <string name="app_name">Radio App</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_home">Home</string>
+    <string name="title_map">Map</string>
     <string name="title_search">Search</string>
     <string name="title_favorites">Favorites</string>
     <string name="play_button">Play</string>

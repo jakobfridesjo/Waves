@@ -9,7 +9,7 @@ import com.example.myapplication.databinding.FragmentSearchBinding
 
 /**
  * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
+ * Use the [MapFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
 class SearchFragment : Fragment() {
