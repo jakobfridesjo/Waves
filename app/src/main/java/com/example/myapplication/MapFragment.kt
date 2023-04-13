@@ -11,7 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.FragmentMapBinding
+import com.example.myapplication.viewmodel.MapViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
 import org.osmdroid.util.GeoPoint
@@ -31,9 +33,10 @@ class MapFragment : Fragment() {
 
     // OpenStreeMap
     lateinit var mapController: MapController
+    private var _binding: FragmentMapBinding? = null
+    private lateinit var mapViewModel: MapViewModel
     lateinit var geoPoints: List<GeoPoint>
     private val location = GeoPoint(65.5840799,22.1975568)
-    private var _binding: FragmentMapBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -45,6 +48,9 @@ class MapFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
+
+        // Connect view model
+        mapViewModel = ViewModelProvider(this)[MapViewModel::class.java]
 
         // Setup the map view
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));

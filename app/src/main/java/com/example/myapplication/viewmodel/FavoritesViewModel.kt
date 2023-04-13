@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
