@@ -8,11 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.StationListItemBinding
 import com.example.myapplication.model.Station
 
-class StationListAdapter(val stationClickListener: StationListClickListener) : ListAdapter<Station, StationListAdapter.ViewHolder>(StationListDiffCallback()) {
+class StationListAdapter(
+    private val stationClickListener: StationListClickListener,
+    private val stationLongClickListener: StationListLongClickListener)
+    : ListAdapter<Station, StationListAdapter.ViewHolder>(StationListDiffCallback()) {
     class ViewHolder(private var binding: StationListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(station: Station, stationClickListener:  StationListClickListener) {
+        fun bind(
+            station: Station,
+            stationClickListener:  StationListClickListener,
+            stationLongClickListener: StationListLongClickListener) {
             binding.station = station
             binding.clickListener = stationClickListener
+            binding.longClickListener = stationLongClickListener
             binding.executePendingBindings()
         }
 
@@ -30,7 +37,7 @@ class StationListAdapter(val stationClickListener: StationListClickListener) : L
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        return holder.bind(getItem(position), stationClickListener)
+        return holder.bind(getItem(position), stationClickListener, stationLongClickListener)
     }
 }
 
@@ -44,6 +51,10 @@ class StationListDiffCallback : DiffUtil.ItemCallback<Station>() {
     }
 }
 
-class StationListClickListener(val clickListener: (movie: Station) -> Unit) {
+class StationListClickListener(val clickListener: (station: Station) -> Unit) {
+    fun onClick(station: Station) = clickListener(station)
+}
+
+class StationListLongClickListener(val clickListener: (station: Station) -> Unit) {
     fun onClick(station: Station) = clickListener(station)
 }

@@ -10,13 +10,17 @@
         <variable
             name="clickListener"
             type="com.example.myapplication.adapter.StationListClickListener" />
+        <variable
+            name="longClickListener"
+            type="com.example.myapplication.adapter.StationListLongClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/station_list_item_cl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClickListener="@{ (view) -> clickListener.onClick(station)}">
+        android:onClickListener="@{ (view) -> clickListener.onClick(station) }"
+        android:onLongClickListener="@{ (view) -> true }">
 
         <ImageView
             android:id="@+id/station_image"

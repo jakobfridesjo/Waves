@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.adapter.StationListAdapter
 import com.example.myapplication.adapter.StationListClickListener
+import com.example.myapplication.adapter.StationListLongClickListener
 import com.example.myapplication.database.StationDatabase
 import com.example.myapplication.database.StationDatabaseDao
 import com.example.myapplication.databinding.FragmentFavoritesBinding
@@ -43,7 +44,8 @@ class FavoritesFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[StationListViewModel::class.java]
 
         val stationListAdapter = StationListAdapter(
-            StationListClickListener { station -> viewModel.onStationListItemClicked(station) }
+            StationListClickListener { station -> viewModel.onStationListItemClicked(station) },
+            StationListLongClickListener { station -> viewModel.onStationListItemClicked(station) }
         )
 
         binding.favoritesList.adapter = stationListAdapter
