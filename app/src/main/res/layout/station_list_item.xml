@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="station"
+            type="com.example.myapplication.model.Station" />
+        <variable
+            name="clickListener"
+            type="com.example.myapplication.adapter.StationListClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/station_list_item_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClickListener="@{ (view) -> clickListener.onClick(station)}">
+
+        <ImageView
+            android:id="@+id/station_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.003"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.342"
+            app:stationImageUrl="@{station.favicon}"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/station_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{station.name}"
+            app:layout_constraintBottom_toBottomOf="@+id/station_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/station_image"
+            app:layout_constraintTop_toTopOf="@+id/station_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

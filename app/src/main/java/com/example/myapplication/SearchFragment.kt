@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.FragmentSearchBinding
 import com.example.myapplication.viewmodel.SearchViewModel
 
@@ -31,7 +30,7 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         // Connect view model
-        searchViewModel = ViewModelProvider(this)[searchViewModel::class.java]
+        //searchViewModel = ViewModelProvider(this)[searchViewModel::class.java]
 
         return binding.root
     }
