@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -31,7 +32,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        startMediaService()
+        startMediaService("https://boxradio-edge-00.streamafrica.net/jpopchill")
+
+        val pButton = findViewById<ImageButton>(R.id.playButton)
+
+        pButton.setOnClickListener {
+            changeMediaServiceStreamUrl("https://mangoradio.stream.laut.fm/mangoradio?t302=2023-04-18_23-11-18&uuid=5069bdcc-de20-4b7a-85a5-7c3771e9a88d")
+        }
 
     /*
         val mediaPlayer = MediaPlayer()
@@ -53,11 +60,35 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun startMediaService() {
+    /**
+     * Setup new media player service
+     */
+    private fun startMediaService(streamUrl: String) {
+        // Setup a service to prepare a media player asynchronously and allow background play
+        mMediaPlayerIntent = Intent(this, MediaPlayerService::class.java).apply {
+            action = MediaPlayerService.ACTION_PLAY
+            putExtra(MediaPlayerService.EXTRA_STREAM_URL, streamUrl)
+        }
+        startService(mMediaPlayerIntent)
+    }
+
+    /**
+     * Change the media player stream url
+     */
+    private fun changeMediaServiceStreamUrl(streamUrl: String) {
         // Setup a service to prepare a media player asynchronously and allow background play
         val intent = Intent(this, MediaPlayerService::class.java).apply {
-            action = MediaPlayerService.ACTION_PLAY
+            action = MediaPlayerService.ACTION_CHANGE_STREAM_URL
+            putExtra(MediaPlayerService.EXTRA_STREAM_URL, streamUrl)
         }
         startService(intent)
+    }
+
+    /**
+     * Stop media player service
+     */
+    private fun stopMediaService() {
+        mMediaPlayerIntent.action = MediaPlayerService.ACTION_STOP
+        startService(mMediaPlayerIntent)
     }
 }

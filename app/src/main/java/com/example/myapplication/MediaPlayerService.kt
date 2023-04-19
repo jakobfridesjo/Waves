@@ -5,16 +5,23 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.IBinder
+import java.io.IOException
 
-class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener {
+class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
 
     private var mMediaPlayer: MediaPlayer? = null
-    private var mStreamUrl: String? = "https://boxradio-edge-00.streamafrica.net/jpopchill"
+    private var mStreamUrl: String? = null
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
         when(intent.action) {
             ACTION_PLAY -> {
+                // Get Stream url
+                mStreamUrl = intent.getStringExtra(EXTRA_STREAM_URL)
+                if (mStreamUrl == null) {
+                    return START_NOT_STICKY
+                }
+
                 // Set audio attributes
                 val audioAttributes = AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -29,27 +36,40 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener {
                 // Wait for it to be ready asynchronously
                 mMediaPlayer?.apply {
                     setOnPreparedListener(this@MediaPlayerService)
+                    setOnErrorListener(this@MediaPlayerService)
                     prepareAsync() // prepare async to not block main thread
                 }
+                return START_STICKY
             }
-            //TODO Make it possible to change stream TODO
-            ACTION_CHANGE_STREAM_URL -> {
-                // Change stream URL using intent
-                mStreamUrl = intent.getStringExtra(EXTRA_STREAM_URL)
 
+            // TODO vv DOES NOT WORK, FIX IT vv TODO
+            ACTION_CHANGE_STREAM_URL -> {
+                mStreamUrl = intent.getStringExtra(EXTRA_STREAM_URL)
+                if (mStreamUrl == null) {
+                    return START_NOT_STICKY
+                }
+
+                // Stop and release the media player
+                if (mMediaPlayer?.isPlaying == true) {
+                    mMediaPlayer?.stop()
+                    mMediaPlayer?.release()
+                    mMediaPlayer = null
+                }
+            }
+            // TODO ^^ DOES NOT WORK, FIX IT ^^ TODO
+
+            ACTION_STOP -> {
                 // Stop and release media player
                 if (mMediaPlayer?.isPlaying == true) {
                     mMediaPlayer?.stop()
                     mMediaPlayer?.release()
                     mMediaPlayer = null
                 }
-
-                // Restart the service
-                val restartIntent = Intent(this, MediaPlayerService::class.java)
-                startService(restartIntent)
+                // Stop the service
+                stopSelf()
             }
         }
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     /**
@@ -67,19 +87,33 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener {
     }
 
     /**
+     * Try to restart on error and stop service if restart didn't work
+     */
+    override fun onError(mediaPlayer: MediaPlayer?, what: Int, extra: Int): Boolean {
+        try {
+            mediaPlayer?.setDataSource(mStreamUrl)
+            mediaPlayer?.prepareAsync()
+        } catch (e: IOException) {
+            // If restarting doesn't work, stop
+            stopSelf()
+        }
+        return true
+    }
+
+    /**
      * Stop playing properly
      */
     override fun onDestroy() {
-        if (mMediaPlayer?.isPlaying() == true) {
+        if (mMediaPlayer?.isPlaying == true) {
             mMediaPlayer?.stop();
         }
-        mMediaPlayer?.release();
         mMediaPlayer?.release();
     }
 
     companion object {
         const val ACTION_PLAY: String = "com.example.myapplication.action.PLAY"
+        const val ACTION_STOP: String = "com.example.myapplication.action.STOP"
         const val ACTION_CHANGE_STREAM_URL: String = "com.example.myapplication.action.CHANGE_STREAM_URL"
-        const val EXTRA_STREAM_URL = "com.example.myapplication.action.STREAM_URL"
+        const val EXTRA_STREAM_URL: String = "EXTRA_STREAM_URL"
     }
 }
