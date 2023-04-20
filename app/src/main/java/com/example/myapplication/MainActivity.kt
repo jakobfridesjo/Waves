@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         val pButton = findViewById<ImageButton>(R.id.playButton)
 
         pButton.setOnClickListener {
-            changeMediaServiceStreamUrl("https://mangoradio.stream.laut.fm/mangoradio?t302=2023-04-18_23-11-18&uuid=5069bdcc-de20-4b7a-85a5-7c3771e9a88d")
+            startMediaService("https://mangoradio.stream.laut.fm/mangoradio?t302=2023-04-18_23-11-18&uuid=5069bdcc-de20-4b7a-85a5-7c3771e9a88d")
         }
 
     /*
@@ -70,18 +70,6 @@ class MainActivity : AppCompatActivity() {
             putExtra(MediaPlayerService.EXTRA_STREAM_URL, streamUrl)
         }
         startService(mMediaPlayerIntent)
-    }
-
-    /**
-     * Change the media player stream url
-     */
-    private fun changeMediaServiceStreamUrl(streamUrl: String) {
-        // Setup a service to prepare a media player asynchronously and allow background play
-        val intent = Intent(this, MediaPlayerService::class.java).apply {
-            action = MediaPlayerService.ACTION_CHANGE_STREAM_URL
-            putExtra(MediaPlayerService.EXTRA_STREAM_URL, streamUrl)
-        }
-        startService(intent)
     }
 
     /**

@@ -5,13 +5,13 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.IBinder
+import android.os.PowerManager
 import java.io.IOException
 
 class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
 
     private var mMediaPlayer: MediaPlayer? = null
     private var mStreamUrl: String? = null
-
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
         when(intent.action) {
@@ -22,14 +22,21 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
                     return START_NOT_STICKY
                 }
 
+                // Stop and release the media player
+                if (mMediaPlayer?.isPlaying == true) {
+                    mMediaPlayer?.stop()
+                }
+
                 // Set audio attributes
                 val audioAttributes = AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                     .setUsage(AudioAttributes.USAGE_MEDIA)
                     .build()
 
-                // Build media player
-                mMediaPlayer = MediaPlayer()
+                // Build media player, acquire partial wake lock to keep cpu alive
+                mMediaPlayer = MediaPlayer().apply {
+                    setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
+                }
                 mMediaPlayer!!.setAudioAttributes(audioAttributes)
                 mMediaPlayer!!.setDataSource(mStreamUrl)
 
@@ -39,24 +46,9 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
                     setOnErrorListener(this@MediaPlayerService)
                     prepareAsync() // prepare async to not block main thread
                 }
+
                 return START_STICKY
             }
-
-            // TODO vv DOES NOT WORK, FIX IT vv TODO
-            ACTION_CHANGE_STREAM_URL -> {
-                mStreamUrl = intent.getStringExtra(EXTRA_STREAM_URL)
-                if (mStreamUrl == null) {
-                    return START_NOT_STICKY
-                }
-
-                // Stop and release the media player
-                if (mMediaPlayer?.isPlaying == true) {
-                    mMediaPlayer?.stop()
-                    mMediaPlayer?.release()
-                    mMediaPlayer = null
-                }
-            }
-            // TODO ^^ DOES NOT WORK, FIX IT ^^ TODO
 
             ACTION_STOP -> {
                 // Stop and release media player
@@ -65,7 +57,7 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
                     mMediaPlayer?.release()
                     mMediaPlayer = null
                 }
-                // Stop the service
+                // Stop the service and wake locks
                 stopSelf()
             }
         }
@@ -108,6 +100,7 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
             mMediaPlayer?.stop();
         }
         mMediaPlayer?.release();
+        mMediaPlayer = null
     }
 
     companion object {
