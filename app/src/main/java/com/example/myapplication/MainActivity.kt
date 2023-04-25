@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.myapplication.MediaPlayerService.Companion.startMediaService
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -32,12 +33,12 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        startMediaService("https://boxradio-edge-00.streamafrica.net/jpopchill")
+        startMediaService(this,"https://boxradio-edge-00.streamafrica.net/jpopchill")
 
         val pButton = findViewById<ImageButton>(R.id.playButton)
 
         pButton.setOnClickListener {
-            startMediaService("https://mangoradio.stream.laut.fm/mangoradio?t302=2023-04-18_23-11-18&uuid=5069bdcc-de20-4b7a-85a5-7c3771e9a88d")
+            startMediaService(this,"https://mangoradio.stream.laut.fm/mangoradio?t302=2023-04-18_23-11-18&uuid=5069bdcc-de20-4b7a-85a5-7c3771e9a88d")
         }
 
     /*
@@ -58,25 +59,5 @@ class MainActivity : AppCompatActivity() {
         }
         */
 
-    }
-
-    /**
-     * Setup new media player service
-     */
-    private fun startMediaService(streamUrl: String) {
-        // Setup a service to prepare a media player asynchronously and allow background play
-        mMediaPlayerIntent = Intent(this, MediaPlayerService::class.java).apply {
-            action = MediaPlayerService.ACTION_PLAY
-            putExtra(MediaPlayerService.EXTRA_STREAM_URL, streamUrl)
-        }
-        startService(mMediaPlayerIntent)
-    }
-
-    /**
-     * Stop media player service
-     */
-    private fun stopMediaService() {
-        mMediaPlayerIntent.action = MediaPlayerService.ACTION_STOP
-        startService(mMediaPlayerIntent)
     }
 }

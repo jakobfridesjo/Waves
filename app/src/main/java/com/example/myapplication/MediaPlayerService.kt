@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
@@ -104,8 +105,31 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
     }
 
     companion object {
+
+        private lateinit var mMediaPlayerIntent: Intent
+
         const val ACTION_PLAY: String = "com.example.myapplication.action.PLAY"
         const val ACTION_STOP: String = "com.example.myapplication.action.STOP"
         const val EXTRA_STREAM_URL: String = "EXTRA_STREAM_URL"
+
+        /**
+         * Setup new media player service
+         */
+        fun startMediaService(context: Context, streamUrl: String) {
+            // Setup a service to prepare a media player asynchronously and allow background play
+            mMediaPlayerIntent = Intent(context, MediaPlayerService::class.java).apply {
+                action = MediaPlayerService.ACTION_PLAY
+                putExtra(MediaPlayerService.EXTRA_STREAM_URL, streamUrl)
+            }
+            context.startService(mMediaPlayerIntent)
+        }
+
+        /**
+         * Stop media player service
+         */
+        fun stopMediaService(context: Context) {
+            mMediaPlayerIntent.action = MediaPlayerService.ACTION_STOP
+            context.startService(mMediaPlayerIntent)
+        }
     }
 }

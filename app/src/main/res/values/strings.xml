@@ -8,13 +8,14 @@
     <string name="play_button">Play</string>
     <string name="favorite_button">Favorite</string>
     <string name="channel_image">Image</string>
-    <string name="channel_name">Channel name</string>
+    <string name="channel_name">Station name</string>
     <string name="favorite_list_description">Favorites list</string>
-    <string name="remove_favorite_channel">Do you want to remove the channel?</string>
-    <string name="search_hint">Search for a channel</string>
+    <string name="remove_favorite_channel">Do you want to remove the station?</string>
+    <string name="search_hint">Search for a station</string>
     <string name="category_button">Category</string>
     <string name="remove">Remove</string>
     <string name="cancel">Cancel</string>
     <string name="station_image">Station image</string>
+    <string name="selector">Select station</string>
 
 </resources>

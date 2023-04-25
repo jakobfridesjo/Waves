@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.MediaPlayerService.Companion.startMediaService
 import com.example.myapplication.databinding.FragmentMapBinding
 import com.example.myapplication.utils.Constants.ESRI_BASE_URL
 import com.example.myapplication.viewmodel.MapViewModel
@@ -66,16 +67,24 @@ class MapFragment : Fragment() {
         binding.mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
         binding.mapView.setUseDataConnection(true)
 
+
         // Add markers
         viewModel.stationList.observe(viewLifecycleOwner) { stationList ->
             stationList?.let {
                 // Setup markers
-                val bitmap = generateCircle(10, Color.GREEN)
+                val bitmap = generateCircle(40, Color.GREEN)
                 val markers = stationList // filter out null elements
                     .filter { it.geo_lat != null && it.geo_long != null } // filter out elements with null geo_lat or geo_long
                     .map {
                         val marker = Marker(binding.mapView)
                         marker.position = GeoPoint(it.geo_lat!!, it.geo_long!!)
+                        marker.title = it.url
+                        marker.setOnMarkerClickListener { m, _ ->
+                            binding.selector.background = null
+                            binding.selector.setImageResource(R.drawable.selector_animation)
+                            context?.let { it1 -> startMediaService(it1,m.title) }
+                            true
+                        }
                         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
                         marker.icon = bitmap
                         marker
