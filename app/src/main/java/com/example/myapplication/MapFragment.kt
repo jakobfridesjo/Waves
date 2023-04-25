@@ -13,7 +13,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.FragmentMapBinding
+import com.example.myapplication.utils.Constants.ESRI_BASE_URL
 import com.example.myapplication.viewmodel.MapViewModel
+import com.example.myapplication.viewmodel.MapViewModelFactory
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
 import org.osmdroid.util.GeoPoint
@@ -34,12 +36,11 @@ class MapFragment : Fragment() {
     // OpenStreeMap
     lateinit var mapController: MapController
     private var _binding: FragmentMapBinding? = null
-    private lateinit var mapViewModel: MapViewModel
-    lateinit var geoPoints: List<GeoPoint>
     private val location = GeoPoint(65.5840799,22.1975568)
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private lateinit var viewModel: MapViewModel
+    private lateinit var viewModelFactory: MapViewModelFactory
+    private lateinit var mapView: MapView
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -50,39 +51,45 @@ class MapFragment : Fragment() {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
         // Connect view model
-        mapViewModel = ViewModelProvider(this)[MapViewModel::class.java]
+        val application = requireNotNull(this.activity).application
+        viewModelFactory = MapViewModelFactory(application)
+        viewModel = ViewModelProvider(this, viewModelFactory)[MapViewModel::class.java]
+
+        mapView = binding.mapView
 
         // Setup the map view
-        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
-        Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID;
+        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
+        Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
         binding.mapView.setMultiTouchControls(true)
         binding.mapView.setBackgroundColor(Color.BLACK)
         binding.mapView.controller.animateTo(location)
         binding.mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
         binding.mapView.setUseDataConnection(true)
 
-        // Set some random locations for testing point drawing
-        geoPoints = listOf(
-            GeoPoint(65.584160,22.154751),
-            GeoPoint(52.520008,13.404954),
-            GeoPoint(39.904202,116.407394),
-            GeoPoint(35.689487,139.691711),
-            GeoPoint(-18.379554,46.628136),
-            GeoPoint(-4.664757,-59.786157)
-        )
+        // Add markers
+        viewModel.stationList.observe(viewLifecycleOwner) { stationList ->
+            stationList?.let {
+                // Setup markers
+                val bitmap = generateCircle(10, Color.GREEN)
+                val markers = stationList // filter out null elements
+                    .filter { it.geo_lat != null && it.geo_long != null } // filter out elements with null geo_lat or geo_long
+                    .map {
+                        val marker = Marker(binding.mapView)
+                        marker.position = GeoPoint(it.geo_lat!!, it.geo_long!!)
+                        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                        marker.icon = bitmap
+                        marker
+                    }
 
-        // Setup markers
-        val markers = geoPoints.map {
-            val marker = Marker(binding.mapView)
-            marker.position = it
-            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-            marker.icon = generateCircle(20, Color.GREEN)
-            marker
+
+                // Add markers to mapView
+                binding.mapView.overlays.addAll(markers)
+                binding.mapView.invalidate()
+                println("TESTING THE IMPLEMENTATION")
+                println(stationList)
+                println("TESTING THE IMPLEMENTATION")
+            }
         }
-
-        // Add markers to mapView
-        binding.mapView.overlays.addAll(markers)
-        binding.mapView.invalidate()
 
         // Disable repetition and set scrolling limits so that the map only tiles horizontally
         binding.mapView.isVerticalMapRepetitionEnabled = false
@@ -101,7 +108,7 @@ class MapFragment : Fragment() {
             15,
             256,
             "",
-            arrayOf("https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/"),
+            arrayOf(ESRI_BASE_URL),
             "Esri"
         ) {
             override fun getTileURLString(pMapTileIndex: Long): String {
@@ -121,6 +128,11 @@ class MapFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
     }
 
     /*

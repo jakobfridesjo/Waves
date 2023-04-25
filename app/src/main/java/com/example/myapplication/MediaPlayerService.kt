@@ -106,7 +106,6 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
     companion object {
         const val ACTION_PLAY: String = "com.example.myapplication.action.PLAY"
         const val ACTION_STOP: String = "com.example.myapplication.action.STOP"
-        const val ACTION_CHANGE_STREAM_URL: String = "com.example.myapplication.action.CHANGE_STREAM_URL"
         const val EXTRA_STREAM_URL: String = "EXTRA_STREAM_URL"
     }
 }

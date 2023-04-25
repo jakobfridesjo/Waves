@@ -22,6 +22,7 @@
         tools:ignore="FragmentTagUsage" />
 
     <include
+        android:id="@+id/include"
         layout="@layout/fragment_miniplayer"
         android:layout_width="377dp"
         android:layout_height="wrap_content"

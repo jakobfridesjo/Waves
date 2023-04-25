@@ -14,10 +14,20 @@
         android:clickable="true"
         android:contentDescription="@string/mapquest_osm"
         android:focusable="true"
+        android:text="@string/title_map"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/title_map" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/selector"
+        layout="@layout/selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/mapView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/mapView"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
