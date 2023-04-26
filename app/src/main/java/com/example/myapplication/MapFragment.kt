@@ -79,7 +79,7 @@ class MapFragment : Fragment() {
                     )
                     val closest: Marker? = findClosestMarker(binding.mapView.overlays.filterIsInstance<Marker>(), center)
                     binding.mapView.controller.animateTo(closest!!.position)
-                    context?.let { startMediaService(it, closest.title) }
+                    startMediaService(application, closest.title)
                 }
             }
             false
@@ -88,7 +88,7 @@ class MapFragment : Fragment() {
         // Add markers
         viewModel.stationList.observe(viewLifecycleOwner) { stationList ->
             stationList?.let {
-                val bitmap = generateCircle(8, Color.GREEN)
+                val bitmap = generateCircle(10, Color.GREEN)
                 val markers = stationList
                     // filter out elements with null geo_lat or geo_long
                     .filter { it.geo_lat != null && it.geo_long != null }
@@ -96,13 +96,7 @@ class MapFragment : Fragment() {
                         val marker = Marker(binding.mapView)
                         marker.position = GeoPoint(it.geo_lat!!, it.geo_long!!)
                         marker.title = it.url
-                        marker.setOnMarkerClickListener { m, _ ->
-                            binding.selector.background = null
-                            binding.selector.setImageResource(R.drawable.selector_animation)
-                            context?.let { it1 -> startMediaService(it1,m.title) }
-                            true
-                        }
-                        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
                         marker.icon = bitmap
                         marker
                     }

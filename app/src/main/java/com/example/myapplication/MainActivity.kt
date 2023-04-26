@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -33,13 +32,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        startMediaService(this,"https://boxradio-edge-00.streamafrica.net/jpopchill")
-
-        val pButton = findViewById<ImageButton>(R.id.playButton)
-
-        pButton.setOnClickListener {
-            startMediaService(this,"https://mangoradio.stream.laut.fm/mangoradio?t302=2023-04-18_23-11-18&uuid=5069bdcc-de20-4b7a-85a5-7c3771e9a88d")
-        }
+        startMediaService(application,"https://boxradio-edge-00.streamafrica.net/jpopchill")
 
     }
 }

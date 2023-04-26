@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.MediaPlayerService.Companion.startMediaService
 import com.example.myapplication.model.Station
 import com.example.myapplication.network.RBApi
 import com.ltu.m7019e.v23.themoviedb.network.DataFetchStatus
@@ -30,7 +31,7 @@ class SearchViewModel(private val application: Application) : AndroidViewModel(a
     }
 
     fun onStationListItemClicked(station: Station) {
-        //startMediaService(station.url)
+        startMediaService(application, station.url)
     }
 
     fun searchStations(name: String) {

@@ -5,12 +5,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.MediaPlayerService.Companion.startMediaService
 import com.example.myapplication.database.StationDatabaseDao
 import com.example.myapplication.database.Stations
 import com.example.myapplication.model.Station
 import kotlinx.coroutines.launch
 
-class StationListViewModel(private val stationDatabaseDao: StationDatabaseDao, application: Application) : AndroidViewModel(application) {
+class StationListViewModel(private val stationDatabaseDao: StationDatabaseDao, private val application: Application) : AndroidViewModel(application) {
     private val _stationList = MutableLiveData<List<Station>>()
     val stationList: LiveData<List<Station>>
         get() {
@@ -40,7 +41,7 @@ class StationListViewModel(private val stationDatabaseDao: StationDatabaseDao, a
     }
 
     fun onStationListItemClicked(station: Station) {
-        _navigateToStationDetail.value = station
+        startMediaService(application, station.url)
     }
 
     fun onStationDetailNavigated() {
