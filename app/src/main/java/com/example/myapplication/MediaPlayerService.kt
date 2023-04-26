@@ -9,13 +9,13 @@ import android.os.IBinder
 import android.os.PowerManager
 import java.io.IOException
 
-class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
+class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
 
     private var mMediaPlayer: MediaPlayer? = null
     private var mStreamUrl: String? = null
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
-        when(intent.action) {
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        when (intent.action) {
             ACTION_PLAY -> {
                 // Get Stream url
                 mStreamUrl = intent.getStringExtra(EXTRA_STREAM_URL)
@@ -24,8 +24,11 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
                 }
 
                 // Stop and release the media player
-                if (mMediaPlayer?.isPlaying == true) {
-                    mMediaPlayer?.stop()
+                mMediaPlayer?.apply {
+                    if (isPlaying) {
+                        stop()
+                    }
+                    release()
                 }
 
                 // Set audio attributes
@@ -53,10 +56,11 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
 
             ACTION_STOP -> {
                 // Stop and release media player
-                if (mMediaPlayer?.isPlaying == true) {
-                    mMediaPlayer?.stop()
-                    mMediaPlayer?.release()
-                    mMediaPlayer = null
+                mMediaPlayer?.apply {
+                    if (isPlaying) {
+                        stop()
+                    }
+                    release()
                 }
                 // Stop the service and wake locks
                 stopSelf()
@@ -97,16 +101,17 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
      * Stop playing properly
      */
     override fun onDestroy() {
-        if (mMediaPlayer?.isPlaying == true) {
-            mMediaPlayer?.stop();
+        mMediaPlayer?.apply {
+            if (isPlaying) {
+                stop()
+            }
+            release()
         }
-        mMediaPlayer?.release();
-        mMediaPlayer = null
+        super.onDestroy()
     }
 
     companion object {
-
-        private lateinit var mMediaPlayerIntent: Intent
+        private var mMediaPlayerIntent: Intent? = null
 
         const val ACTION_PLAY: String = "com.example.myapplication.action.PLAY"
         const val ACTION_STOP: String = "com.example.myapplication.action.STOP"
@@ -116,10 +121,15 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
          * Setup new media player service
          */
         fun startMediaService(context: Context, streamUrl: String) {
+            // If the service is running, stop it before starting a the one
+            if (mMediaPlayerIntent?.action == ACTION_PLAY) {
+                stopMediaService(context)
+            }
+
             // Setup a service to prepare a media player asynchronously and allow background play
             mMediaPlayerIntent = Intent(context, MediaPlayerService::class.java).apply {
-                action = MediaPlayerService.ACTION_PLAY
-                putExtra(MediaPlayerService.EXTRA_STREAM_URL, streamUrl)
+                action = ACTION_PLAY
+                putExtra(EXTRA_STREAM_URL, streamUrl)
             }
             context.startService(mMediaPlayerIntent)
         }
@@ -128,8 +138,12 @@ class MediaPlayerService: Service(), MediaPlayer.OnPreparedListener, MediaPlayer
          * Stop media player service
          */
         fun stopMediaService(context: Context) {
-            mMediaPlayerIntent.action = MediaPlayerService.ACTION_STOP
-            context.startService(mMediaPlayerIntent)
+            mMediaPlayerIntent?.let {
+                context.stopService(Intent(context, MediaPlayerService::class.java).apply {
+                    action = it.action
+                })
+            }
         }
     }
+
 }

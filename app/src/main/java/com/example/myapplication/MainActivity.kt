@@ -41,23 +41,5 @@ class MainActivity : AppCompatActivity() {
             startMediaService(this,"https://mangoradio.stream.laut.fm/mangoradio?t302=2023-04-18_23-11-18&uuid=5069bdcc-de20-4b7a-85a5-7c3771e9a88d")
         }
 
-    /*
-        val mediaPlayer = MediaPlayer()
-        val audioAttributes = AudioAttributes.Builder()
-            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-            .setUsage(AudioAttributes.USAGE_MEDIA)
-            .build()
-
-        mediaPlayer.setAudioAttributes(audioAttributes)
-        mediaPlayer.setDataSource("https://boxradio-edge-00.streamafrica.net/jpopchill")
-
-        try {
-            mediaPlayer.prepare()
-            mediaPlayer.start()
-        } catch (e: Exception) {
-            Log.e("MainActivity", "Error playing radio station", e)
-        }
-        */
-
     }
 }
