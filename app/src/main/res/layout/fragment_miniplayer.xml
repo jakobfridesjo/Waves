@@ -38,7 +38,7 @@
         android:textAlignment="gravity"
         android:textSize="16sp" />
 
-    <ImageButton
+    <ToggleButton
         android:id="@+id/favoriteButton"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="50dp"
@@ -48,9 +48,10 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:layout_weight="0"
+        android:button="@drawable/toggle_like"
         android:contentDescription="@string/favorite_button"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_favorite_light" />
+        android:textOff=""
+        android:textOn="" />
 
     <ImageButton
         android:id="@+id/playButton"
