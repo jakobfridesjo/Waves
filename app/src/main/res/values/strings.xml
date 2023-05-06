@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">Radio App</string>
+    <string name="app_name">Waves</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_map">Map</string>
     <string name="title_search">Search</string>
@@ -18,5 +18,6 @@
     <string name="station_image">Station image</string>
     <string name="selector">Select station</string>
     <string name="channel_description">TEST</string>
+    <string name="search_for_channels">Search for channels!</string>
 
 </resources>

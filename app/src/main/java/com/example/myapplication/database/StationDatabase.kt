@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.myapplication.model.Station
+import com.example.myapplication.model.StationAttributes
 
-@Database(entities = [Station::class], version = 1, exportSchema = false)
+@Database(entities = [Station::class, StationAttributes::class], version = 1, exportSchema = false)
 abstract class StationDatabase : RoomDatabase() {
     abstract val stationDatabaseDao: StationDatabaseDao
 
@@ -23,7 +24,7 @@ abstract class StationDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         StationDatabase::class.java,
-                        "saved_stations_database"
+                        "saved_station_database"
                     )
                         .fallbackToDestructiveMigration()
                         .build()

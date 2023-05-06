@@ -4,16 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.myapplication.adapter.StationListAdapter
-import com.example.myapplication.adapter.StationListClickListener
-import com.example.myapplication.adapter.StationListLongClickListener
+import com.example.myapplication.adapter.FavoritesListAdapter
+import com.example.myapplication.adapter.FavoritesListClickListener
+import com.example.myapplication.adapter.FavoritesListLongClickListener
 import com.example.myapplication.database.StationDatabase
 import com.example.myapplication.database.StationDatabaseDao
 import com.example.myapplication.databinding.FragmentFavoritesBinding
-import com.example.myapplication.viewmodel.StationListViewModel
-import com.example.myapplication.viewmodel.StationListViewModelFactory
+import com.example.myapplication.utils.RecyclerViewDecorator
+import com.example.myapplication.viewmodel.FavoritesListViewModel
+import com.example.myapplication.viewmodel.FavoritesListViewModelFactory
 
 /**
  * A simple [Fragment] subclass.
@@ -22,8 +24,8 @@ import com.example.myapplication.viewmodel.StationListViewModelFactory
  */
 class FavoritesFragment : Fragment() {
 
-    private lateinit var viewModel: StationListViewModel
-    private lateinit var viewModelFactory: StationListViewModelFactory
+    private lateinit var viewModel: FavoritesListViewModel
+    private lateinit var viewModelFactory: FavoritesListViewModelFactory
 
     private lateinit var stationDatabaseDao: StationDatabaseDao
 
@@ -37,58 +39,33 @@ class FavoritesFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentFavoritesBinding.inflate(inflater)
 
+        val appContainer = Waves.getAppContainer(requireContext())
+        val stationRepository = appContainer.stationRepository
         val application = requireNotNull(this.activity).application
-        stationDatabaseDao = StationDatabase.getInstance(application).stationDatabaseDao
 
-        viewModelFactory = StationListViewModelFactory(stationDatabaseDao, application)
-        viewModel = ViewModelProvider(this, viewModelFactory)[StationListViewModel::class.java]
+        viewModelFactory = FavoritesListViewModelFactory(stationRepository, application)
+        viewModel = ViewModelProvider(this, viewModelFactory)[FavoritesListViewModel::class.java]
 
-        val stationListAdapter = StationListAdapter(
-            StationListClickListener { station -> viewModel.onStationListItemClicked(station) },
-            StationListLongClickListener { station -> viewModel.onStationListItemClicked(station) }
-        )
+        val bottomSpaceHeight = resources.getDimensionPixelSize(R.dimen.list_end_padding)
+        val dividerHeight = resources.getDimensionPixelSize(R.dimen.list_divider_height)
+        val dividerColor = ContextCompat.getColor(requireContext(), R.color.grey_light)
+        binding.favoritesList.addItemDecoration(RecyclerViewDecorator(bottomSpaceHeight, dividerHeight, dividerColor))
 
-        binding.favoritesList.adapter = stationListAdapter
-        viewModel.stationList.observe(viewLifecycleOwner) { stationList ->
-            stationList?.let {
-                stationListAdapter.submitList(stationList)
+        val favoritesListAdapter = context?.let {
+            FavoritesListAdapter(
+                it,
+                FavoritesListClickListener { station -> viewModel.onFavoritesListItemClicked(station) },
+                FavoritesListLongClickListener { station -> viewModel.onFavoritesListItemClicked(station) }
+            )
+        }
+
+        binding.favoritesList.adapter = favoritesListAdapter
+        viewModel.favoritesList.observe(viewLifecycleOwner) { favoritesList ->
+            favoritesList?.let {
+                favoritesListAdapter?.submitList(favoritesList)
+                binding.favoritesList.invalidateItemDecorations()
             }
         }
-/*
-        viewModel.navigateToStationDetail.observe(viewLifecycleOwner) { station ->
-            station?.let {
-                this.findNavController().navigate(
-                    StationListFragmentDirections.actionStationListFragmentToStationDetailFragment(
-                        station
-                    )
-                )
-                viewModel.onStationDetailNavigated()
-            }
-        }
-*/
         return binding.root
     }
-/*
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        return when (item.itemId) {
-            R.id.action_load_popular_stations -> {
-                true
-            }
-            R.id.action_load_top_rated_stations -> {
-                viewModel.addStation()
-                true
-            }
-            R.id.action_load_saved_stations -> {
-                viewModel.getSavedStations()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
- */
 }

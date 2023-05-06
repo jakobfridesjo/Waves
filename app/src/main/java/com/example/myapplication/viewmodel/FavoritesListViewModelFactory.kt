@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.StationRepository
 
 @Suppress("UNCHECKED_CAST")
-class MapViewModelFactory(private val movieRepository: StationRepository, private val application: Application): ViewModelProvider.Factory {
+class FavoritesListViewModelFactory(
+    private val stationRepository: StationRepository,
+    private val application: Application): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(MapViewModel::class.java)) {
-            return MapViewModel(movieRepository, application) as T
+        if(modelClass.isAssignableFrom(FavoritesListViewModel::class.java)) {
+            return FavoritesListViewModel(stationRepository, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
+
 }

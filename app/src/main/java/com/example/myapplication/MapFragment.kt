@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -54,15 +55,18 @@ class MapFragment : Fragment() {
     ): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
-        // Connect view model
+        val appContainer = Waves.getAppContainer(requireContext())
+        val stationRepository = appContainer.stationRepository
         val application = requireNotNull(this.activity).application
-        viewModelFactory = MapViewModelFactory(application)
+
+        viewModelFactory = MapViewModelFactory(stationRepository, application)
         viewModel = ViewModelProvider(this, viewModelFactory)[MapViewModel::class.java]
 
         mapView = binding.mapView
 
         // Setup the map view
-        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
+        val sharedPreferences = context?.getSharedPreferences("map_prefs", Context.MODE_PRIVATE)
+        Configuration.getInstance().load(context, sharedPreferences)
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
         binding.mapView.setMultiTouchControls(true)
         binding.mapView.setBackgroundColor(Color.BLACK)
@@ -88,9 +92,9 @@ class MapFragment : Fragment() {
         // Add markers
         viewModel.stationList.observe(viewLifecycleOwner) { stationList ->
             stationList?.let {
-                val bitmap = generateCircle(10, Color.GREEN)
+                val bitmap = generateCircle(5, Color.GREEN)
                 val markers = stationList
-                    // filter out elements with null geo_lat or geo_long
+                    // filter out elements with nullerenceserences geo_lat or geo_long
                     .filter { it.geo_lat != null && it.geo_long != null }
                     .map {
                         val marker = Marker(binding.mapView)

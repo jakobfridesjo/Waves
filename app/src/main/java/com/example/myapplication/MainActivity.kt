@@ -14,7 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mMediaPlayerIntent: Intent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         startMediaService(application,"https://boxradio-edge-00.streamafrica.net/jpopchill")
+
+
 
     }
 }

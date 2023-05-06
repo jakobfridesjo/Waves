@@ -9,10 +9,10 @@
             type="com.example.myapplication.model.Station" />
         <variable
             name="clickListener"
-            type="com.example.myapplication.adapter.StationListClickListener" />
+            type="com.example.myapplication.adapter.FavoritesListClickListener" />
         <variable
             name="longClickListener"
-            type="com.example.myapplication.adapter.StationListLongClickListener" />
+            type="com.example.myapplication.adapter.FavoritesListLongClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

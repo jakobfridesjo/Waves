@@ -25,7 +25,7 @@ class MiniplayerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Connect ViewModel
         miniplayerViewModel = ViewModelProvider(this)[MiniplayerViewModel::class.java]

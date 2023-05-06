@@ -6,12 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.MediaPlayerService.Companion.startMediaService
+import com.example.myapplication.data.StationRepository
 import com.example.myapplication.model.Station
-import com.example.myapplication.network.RBApi
 import com.ltu.m7019e.v23.themoviedb.network.DataFetchStatus
 import kotlinx.coroutines.launch
 
-class SearchViewModel(private val application: Application) : AndroidViewModel(application) {
+class SearchViewModel(
+    private val stationRepository: StationRepository,
+    private val application: Application) : AndroidViewModel(application) {
 
     private val _dataFetchStatus = MutableLiveData<DataFetchStatus>()
     val dataFetchStatus: LiveData<DataFetchStatus>
@@ -19,29 +21,28 @@ class SearchViewModel(private val application: Application) : AndroidViewModel(a
             return _dataFetchStatus
         }
 
-    private val _stationList = MutableLiveData<List<Station>>()
-    val stationList: LiveData<List<Station>>
+    private val _searchList = MutableLiveData<List<Station>>()
+    val searchList: LiveData<List<Station>>
         get() {
-            return _stationList
+            return _searchList
         }
 
     init {
-        searchStations("BBC")
         _dataFetchStatus.value = DataFetchStatus.LOADING
     }
 
-    fun onStationListItemClicked(station: Station) {
+    fun onSearchListItemClicked(station: Station) {
         startMediaService(application, station.url)
     }
 
     fun searchStations(name: String) {
         viewModelScope.launch {
             try {
-                _stationList.value = RBApi.radioListRetrofitService.searchStations("true",100,"true",name)
+                _searchList.value = stationRepository.searchStationByName(name)
                 _dataFetchStatus.value = DataFetchStatus.DONE
             } catch (e: Exception) {
                 _dataFetchStatus.value = DataFetchStatus.ERROR
-                _stationList.value = arrayListOf()
+                _searchList.value = arrayListOf()
             }
         }
     }
