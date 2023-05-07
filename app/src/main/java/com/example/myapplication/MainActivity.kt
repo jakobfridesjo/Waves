@@ -34,7 +34,5 @@ class MainActivity : AppCompatActivity() {
 
         startMediaService(application,"https://boxradio-edge-00.streamafrica.net/jpopchill")
 
-
-
     }
 }

@@ -5,11 +5,12 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RewriteQueriesToDropUnusedColumns
 import com.example.myapplication.model.Station
 
 @Dao
 interface StationDatabaseDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStations(stations: List<Station>)
 
     @Delete
@@ -34,16 +35,19 @@ interface StationDatabaseDao {
     @Query("UPDATE station_attributes SET favorite = :value WHERE station_attributes.stationUUID = :stationUUID")
     suspend fun setFavoriteStation(stationUUID: String, value: Boolean)
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM stations " +
             "INNER JOIN station_attributes ON stations.stationUUID = station_attributes.stationUUID " +
             "WHERE station_attributes.top_clicked = 1")
     suspend fun getTopClickedStations(): List<Station>
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM stations " +
             "INNER JOIN station_attributes ON stations.stationUUID = station_attributes.stationUUID " +
             "WHERE station_attributes.top_voted = 1")
     suspend fun getTopVotedStations(): List<Station>
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM stations " +
             "INNER JOIN station_attributes ON stations.stationUUID = station_attributes.stationUUID " +
             "WHERE station_attributes.favorite = 1")

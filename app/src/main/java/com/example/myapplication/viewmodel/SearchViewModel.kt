@@ -32,7 +32,13 @@ class SearchViewModel(
     }
 
     fun onSearchListItemClicked(station: Station) {
-        startMediaService(application, station.url)
+        viewModelScope.launch {
+            if (station.urlResolved.isNotEmpty()) {
+                startMediaService(application, station.urlResolved)
+            } else {
+                startMediaService(application, station.url)
+            }
+        }
     }
 
     fun searchStations(name: String) {

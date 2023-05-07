@@ -19,36 +19,40 @@ data class Station (
     @PrimaryKey
     var stationUUID: String = "",
 
-    @Json
+    @Json(name = "name")
     @ColumnInfo(name = "name")
     var name: String = "",
 
-    @Json
-    @TypeConverters(TagsConverter::class)
+    @Json(name = "tags")
     @ColumnInfo(name = "tags")
+    @TypeConverters(TagsConverter::class)
     var tags: String? = "",
 
-    @Json
+    @Json(name = "countrycode")
     @ColumnInfo(name = "countrycode")
     var countryCode: String? = "",
 
-    @Json
+    @Json(name = "country")
     @ColumnInfo(name = "country")
     var country: String? = "",
 
-    @Json
+    @Json(name = "url")
     @ColumnInfo(name = "url")
     var url: String = "",
 
-    @Json
+    @Json(name = "url_resolved")
+    @ColumnInfo(name = "url_resolved")
+    var urlResolved: String = "",
+
+    @Json(name = "favicon")
     @ColumnInfo(name = "favicon")
     var favicon: String? = "",
 
-    @Json
+    @Json(name = "geo_lat")
     @ColumnInfo(name = "geo_lat")
     var geo_lat: Double? = null,
 
-    @Json
+    @Json(name = "geo_long")
     @ColumnInfo(name = "geo_long")
     var geo_long: Double? = null
 

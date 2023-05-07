@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
@@ -24,21 +25,28 @@ fun getLoggerIntercepter(): HttpLoggingInterceptor {
 
 interface RadioBrowserApiService {
 
-    @GET("topclick")
+    @GET("station/{uuid}")
+    suspend fun getStationByUUID(
+        @Path("uuid") uuid: String,
+        @Query("hidebroken") hideBroken: String = "true",
+        @Query("geo") geo: String = "true"
+    ): Station
+
+    @GET("stations/topclick")
     suspend fun getTopClickedStations(
-        @Query("hidebroken") hideBroken: String = "false",
+        @Query("hidebroken") hideBroken: String = "true",
         @Query("limit") limit: Int = 10000,
         @Query("geo") geo: String = "true"
     ): List<Station>
 
-    @GET("topvote")
+    @GET("stations/topvote")
     suspend fun getTopVotedStations(
         @Query("hidebroken") hideBroken: String = "true",
         @Query("limit") limit: Int = 10000,
         @Query("geo") geo: String = "true"
     ): List<Station>
 
-    @GET("search")
+    @GET("stations/search")
     suspend fun searchStationsByName(
         @Query("hidebroken") hideBroken: String = "true",
         @Query("limit") limit: Int = 100,

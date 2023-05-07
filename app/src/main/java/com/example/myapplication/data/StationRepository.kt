@@ -4,6 +4,7 @@ import com.example.myapplication.database.StationDatabaseDao
 import com.example.myapplication.model.Station
 import com.example.myapplication.network.RadioBrowserApiService
 import timber.log.Timber
+import java.util.UUID
 
 interface StationRepository {
 
@@ -14,10 +15,19 @@ interface StationRepository {
     suspend fun deleteStations(stations: List<Station>)
     suspend fun insertStations(stations: List<Station>)
     suspend fun setFavorite(station: Station, value: Boolean)
+    suspend fun getStation(stationUUID: String): Station
 
 }
 
 class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDao, private val radioBrowserApiService: RadioBrowserApiService) : StationRepository {
+
+
+    /**
+     * Gets the station by UUID
+     */
+    override suspend fun getStation(stationUUID: String): Station {
+        return radioBrowserApiService.getStationByUUID(stationUUID)
+    }
 
     /**
      * Get the top voted stations

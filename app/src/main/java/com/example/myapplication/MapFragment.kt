@@ -99,7 +99,11 @@ class MapFragment : Fragment() {
                     .map {
                         val marker = Marker(binding.mapView)
                         marker.position = GeoPoint(it.geo_lat!!, it.geo_long!!)
-                        marker.title = it.url
+                        if (it.urlResolved.isNotEmpty()) {
+                            marker.title = it.urlResolved
+                        } else {
+                            marker.title = it.url
+                        }
                         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
                         marker.icon = bitmap
                         marker
