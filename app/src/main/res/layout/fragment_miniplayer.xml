@@ -1,98 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.example.myapplication.viewmodel.MiniplayerViewModel" />
+
         <variable
             name="station"
             type="com.example.myapplication.model.Station" />
+
+        <variable
+            name="nowPlaying"
+            type="com.example.myapplication.model.NowPlaying" />
     </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/fragment_miniplayer"
-    android:layout_width="match_parent"
-    android:layout_height="65dp"
-    android:layout_marginStart="4dp"
-    android:layout_marginTop="12dp"
-    android:layout_marginEnd="4dp"
-    android:background="@drawable/popup_box"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
-
-    <ImageView
-        android:id="@+id/channelView"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_weight="0"
-        android:contentDescription="@string/channel_image"
-        app:stationImageUrl="@{station.favicon}"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_no_image_light" />
-
-    <TextView
-        android:id="@+id/channelText"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="1"
-        android:contentDescription="@string/channel_name"
-        android:gravity="start|center_vertical"
-        android:paddingStart="6dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="6dp"
-        android:paddingBottom="6dp"
-        android:text="@{station.name}"
-        android:textAlignment="gravity"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
-        app:layout_constraintStart_toEndOf="@+id/channelView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/favoriteButton"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_weight="0"
-        app:srcCompat="@drawable/ic_favorite_border_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/unFavoriteButton"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/favorite_button"/>
-
-    <ImageButton
-        android:id="@+id/unFavoriteButton"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/playButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_favorite_24"
-        android:contentDescription="@string/remove_favorite_channel" />
-
-    <ImageButton
-        android:id="@+id/playButton"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="0"
-        android:contentDescription="@string/play_button"
-        android:scaleType="centerCrop"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_miniplayer"
+        android:layout_width="380dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/rectangle"
+        android:padding="8dp"
+        android:visibility="@{(station != null) ? View.VISIBLE : View.GONE}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_play_light" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/channelView"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/channel_image"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_no_image_light"
+            app:stationImageUrl="@{station.favicon}" />
+
+        <TextView
+            android:id="@+id/channelText"
+            android:layout_width="0dp"
+            android:layout_height="26sp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/channel_name"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="2"
+            android:paddingStart="6dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="6dp"
+            android:scrollHorizontally="true"
+            android:text="@{station.name}"
+            android:textAlignment="gravity"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+            app:layout_constraintStart_toEndOf="@+id/channelView"
+            app:layout_constraintTop_toTopOf="@+id/channelView" />
+
+        <ImageView
+            android:id="@+id/favoriteButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/favorite_button"
+            android:onClick="@{ () -> viewModel.onSaveStation(station)}"
+            android:visibility="@{viewModel.isFavorite ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/unFavoriteButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_favorite_border_24" />
+
+        <ImageView
+            android:id="@+id/unFavoriteButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/remove_favorite_channel"
+            android:onClick="@{ () -> viewModel.onDeleteStation(station)}"
+            android:visibility="@{viewModel.isFavorite ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/playButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_favorite_24" />
+
+        <ImageView
+            android:id="@+id/playButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/play_button"
+            android:onClick="@{ () -> viewModel.stopPlayer()}"
+            android:scaleType="centerCrop"
+            android:visibility="@{viewModel.isPlaying ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_play_light" />
+
+        <ImageView
+            android:id="@+id/stopButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/play_button"
+            android:onClick="@{ () -> viewModel.startPlayer()}"
+            android:scaleType="centerCrop"
+            android:visibility="@{viewModel.isPlaying ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_stop_light" />
+
+        <TextView
+            android:id="@+id/nowPlaying"
+            android:layout_width="0dp"
+            android:layout_height="12sp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:text="@{nowPlaying.title}"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/artist"
+            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/channelView"
+            app:layout_constraintTop_toBottomOf="@+id/channelText" />
+
+        <TextView
+            android:id="@+id/artist"
+            android:layout_width="0dp"
+            android:layout_height="12sp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:text="@{nowPlaying.artist}"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/channelView"
+            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/channelView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

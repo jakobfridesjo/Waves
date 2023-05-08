@@ -5,8 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.os.Handler
+import android.os.HandlerThread
 import android.os.IBinder
 import android.os.PowerManager
+import androidx.fragment.app.FragmentManager
 import java.io.IOException
 
 class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
@@ -40,17 +43,26 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener, MediaPlaye
                 // Build media player, acquire partial wake lock to keep cpu alive
                 mMediaPlayer = MediaPlayer().apply {
                     setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
-                }
-                mMediaPlayer!!.setAudioAttributes(audioAttributes)
-                mMediaPlayer!!.setDataSource(mStreamUrl)
-
-                // Wait for it to be ready asynchronously
-                mMediaPlayer?.apply {
+                    setAudioAttributes(audioAttributes)
+                    setDataSource(mStreamUrl)
                     setOnPreparedListener(this@MediaPlayerService)
                     setOnErrorListener(this@MediaPlayerService)
                     prepareAsync() // prepare async to not block main thread
                 }
 
+                // Timeout if the player is not ready within 10 seconds
+                // TODO TIMEOUT IF NOT PLAYING WITHIN 10 SECONDS
+                /*
+                val handlerThread = HandlerThread("MediaServiceTimeout")
+                handlerThread.start()
+                val handler = Handler(handlerThread.looper)
+                handler.postDelayed({
+                    if (mMediaPlayer?.isPlaying == true) {
+                        stopSelf()
+                    }
+                    handlerThread.quitSafely()
+                }, 10000)
+                */
                 return START_STICKY
             }
 
@@ -64,6 +76,7 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener, MediaPlaye
                 }
                 // Stop the service and wake locks
                 stopSelf()
+                mMediaPlayer = null
             }
         }
         return START_NOT_STICKY
@@ -124,6 +137,7 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener, MediaPlaye
             // If the service is running, stop it before starting a the one
             if (mMediaPlayerIntent?.action == ACTION_PLAY) {
                 stopMediaService(context)
+                mMediaPlayerIntent = null
             }
 
             // Setup a service to prepare a media player asynchronously and allow background play
@@ -137,7 +151,7 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener, MediaPlaye
         /**
          * Stop media player service
          */
-        fun stopMediaService(context: Context) {
+        private fun stopMediaService(context: Context) {
             mMediaPlayerIntent?.let {
                 context.stopService(Intent(context, MediaPlayerService::class.java).apply {
                     action = it.action

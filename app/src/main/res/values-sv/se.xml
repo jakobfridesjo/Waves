@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="app_name">Waves</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_map">Karta</string>
+    <string name="title_search">Sök</string>
+    <string name="title_favorites">Favoriter</string>
+    <string name="play_button">Spela</string>
+    <string name="favorite_button">Favoriter</string>
+    <string name="channel_image">Stationens bild</string>
+    <string name="channel_name">Stationens namn</string>
+    <string name="favorite_list_description">Lista med gillade stationer</string>
+    <string name="remove_favorite_channel">Do you want to remove the station?</string>
+    <string name="search_hint">Sök efter en station</string>
+    <string name="category_button">Kategori</string>
+    <string name="remove">Avgilla</string>
+    <string name="cancel">Avbryt</string>
+    <string name="station_image">Stationens bild</string>
+    <string name="selector">Välj station</string>
+    <string name="channel_description">TEST</string>
+    <string name="search_for_channels">Sök efter kanaler!</string>
+
+</resources>

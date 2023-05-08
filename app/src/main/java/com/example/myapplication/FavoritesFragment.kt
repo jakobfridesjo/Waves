@@ -48,8 +48,7 @@ class FavoritesFragment : Fragment() {
 
         val bottomSpaceHeight = resources.getDimensionPixelSize(R.dimen.list_end_padding)
         val dividerHeight = resources.getDimensionPixelSize(R.dimen.list_divider_height)
-        val dividerColor = ContextCompat.getColor(requireContext(), R.color.grey_light)
-        binding.favoritesList.addItemDecoration(RecyclerViewDecorator(bottomSpaceHeight, dividerHeight, dividerColor))
+        binding.favoritesList.addItemDecoration(RecyclerViewDecorator(bottomSpaceHeight, dividerHeight))
 
         val favoritesListAdapter = context?.let {
             FavoritesListAdapter(

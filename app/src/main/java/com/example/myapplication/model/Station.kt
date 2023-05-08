@@ -15,7 +15,7 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "stations")
 data class Station (
 
-    @Json()
+    @Json(name = "stationuuid")
     @PrimaryKey
     var stationUUID: String = "",
 

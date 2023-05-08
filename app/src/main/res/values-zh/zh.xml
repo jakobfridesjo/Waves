@@ -1,0 +1,22 @@
+<resources>
+
+    <string name="app_name">Waves</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_map">地图</string>
+    <string name="title_search">搜索</string>
+    <string name="title_favorites">喜欢</string>
+    <string name="play_button">播放</string>
+    <string name="favorite_button">喜欢</string>
+    <string name="channel_image">广播海报</string>
+    <string name="channel_name">广播的名字</string>
+    <string name="favorite_list_description">最爱清单</string>
+    <string name="search_hint">搜索广播</string>
+    <string name="category_button">类别</string>
+    <string name="remove">除去</string>
+    <string name="cancel">取消</string>
+    <string name="station_image">广播海报</string>
+    <string name="selector">选择广播</string>
+    <string name="channel_description">TEST</string>
+    <string name="search_for_channels">搜索播客</string>
+
+</resources>

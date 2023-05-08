@@ -1,14 +1,17 @@
 package com.example.myapplication.network
 
+import com.example.myapplication.model.NowPlaying
 import com.example.myapplication.model.Station
 import com.example.myapplication.utils.Constants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
@@ -53,4 +56,21 @@ interface RadioBrowserApiService {
         @Query("geo") geo: String = "true",
         @Query("name") name: String
     ): List<Station>
+
+    @GET("nowplaying")
+    suspend fun getNowPlaying(
+        @Query("station") stationUUID: String
+    ): List<NowPlaying>
+
+    //TODO UNTESTED, NOT WELL DOCUMENTED
+    @POST("stations/{id}/vote")
+    suspend fun postVote(
+        @Path("id") stationId: String,
+        @Query("vote") vote: String
+    ): Response<Unit>
+
+    @POST("stations/{id}/click")
+    suspend fun postClick(
+        @Path("id") stationId: String
+    ): Response<Unit>
 }

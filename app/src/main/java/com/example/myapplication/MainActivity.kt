@@ -1,8 +1,15 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
+import android.text.method.ScrollingMovementMethod
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -10,6 +17,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.myapplication.MediaPlayerService.Companion.startMediaService
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
+import java.util.Locale
+import kotlin.coroutines.coroutineContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +44,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        startMediaService(application,"https://boxradio-edge-00.streamafrica.net/jpopchill")
-
+        val miniplayerFragment = MiniplayerFragment()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container_miniplayer, miniplayerFragment, "fragment_miniplayer")
+            .commit()
     }
 }

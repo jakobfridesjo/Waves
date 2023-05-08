@@ -28,6 +28,8 @@ import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 /**
@@ -40,7 +42,6 @@ class MapFragment : Fragment() {
     // OpenStreeMap
     lateinit var mapController: MapController
     private var _binding: FragmentMapBinding? = null
-    private val location = GeoPoint(65.5840799,22.1975568)
 
     private lateinit var viewModel: MapViewModel
     private lateinit var viewModelFactory: MapViewModelFactory
@@ -70,20 +71,28 @@ class MapFragment : Fragment() {
         Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
         binding.mapView.setMultiTouchControls(true)
         binding.mapView.setBackgroundColor(Color.BLACK)
-        binding.mapView.controller.animateTo(location)
         binding.mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
         binding.mapView.setUseDataConnection(true)
 
         binding.mapView.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_UP -> {
-                    val center = GeoPoint(
-                        mapView.boundingBox.centerLatitude,
-                        mapView.boundingBox.centerLongitude
+                    val center = mapView.mapCenter
+                    val closest: Marker? = findClosestMarker(binding.mapView.overlays.filterIsInstance<Marker>(),
+                        center as GeoPoint
                     )
-                    val closest: Marker? = findClosestMarker(binding.mapView.overlays.filterIsInstance<Marker>(), center)
-                    binding.mapView.controller.animateTo(closest!!.position)
-                    startMediaService(application, closest.title)
+                    val radiusPx = binding.selector.width / 2L
+                    val projection = binding.mapView.projection
+                    val centerPixels = projection.toPixels(center, null)
+                    val closestPixels = projection.toPixels(closest!!.position, null)
+                    val distanceToCenter = sqrt(
+                        (closestPixels.x - centerPixels.x).toDouble().pow(2.0) + (closestPixels.y - centerPixels.y).toDouble()
+                            .pow(2.0)
+                    )
+                    if (distanceToCenter <= radiusPx) {
+                        binding.mapView.controller.animateTo(closest.position)
+                        startMediaService(application, closest.title)
+                    }
                 }
             }
             false
@@ -145,7 +154,6 @@ class MapFragment : Fragment() {
         })
 
         mapController = binding.mapView.controller as MapController
-        mapController.setCenter(location)
 
         return binding.root
     }

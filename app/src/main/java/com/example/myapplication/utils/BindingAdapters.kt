@@ -5,6 +5,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.caverock.androidsvg.SVG
 import com.example.myapplication.R
 import kotlinx.coroutines.CoroutineScope
@@ -13,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import timber.log.Timber
 import java.io.IOException
 import java.lang.Exception
 import java.util.Locale
@@ -39,6 +43,7 @@ fun bindStationImage(imgView: ImageView, imgUrl: String?) {
 
                     Glide.with(imgView)
                         .load(drawable)
+                        .transform(CenterInside(), RoundedCorners(8))
                         .into(imgView)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -50,6 +55,7 @@ fun bindStationImage(imgView: ImageView, imgUrl: String?) {
                 }
                 Glide.with(imgView)
                     .load(imageUrl)
+                    .transform(CenterInside(), RoundedCorners(8))
                     .into(imgView)
             }
         }
@@ -58,11 +64,11 @@ fun bindStationImage(imgView: ImageView, imgUrl: String?) {
 
 @BindingAdapter("countryCode")
 fun bindCountryCode(textView: TextView, countryCode: String) {
-    val country =
-    try {
-        Locale("", countryCode).getDisplayCountry(Locale.ENGLISH)
+    val locale = Locale.getDefault()
+    val country = try {
+        Locale("", countryCode).getDisplayCountry(locale)
     } catch (e: Exception) {
-        "International"
+        "WW"
     }
     textView.text = country
 }

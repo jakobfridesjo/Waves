@@ -38,6 +38,10 @@ class SearchFragment : Fragment() {
         val stationRepository = appContainer.stationRepository
         val application = requireNotNull(this.activity).application
 
+        // For controlling the mini player
+        val fragmentManager = requireActivity().supportFragmentManager
+        val myFragment = fragmentManager.findFragmentByTag("fragment_miniplayer") as MiniplayerFragment?
+
         viewModelFactory = SearchViewModelFactory(stationRepository, application)
         viewModel = ViewModelProvider(this, viewModelFactory)[SearchViewModel::class.java]
 
@@ -45,15 +49,18 @@ class SearchFragment : Fragment() {
             SearchListAdapter(
                 it,
                 SearchListClickListener { station ->
-                    viewModel.onSearchListItemClicked(station) },
-                SearchListLongClickListener { station -> viewModel.onSearchListItemClicked(station) }
+                    viewModel.onSearchListItemClicked(station)
+                    // Refresh player on playing channel
+                    myFragment?.refreshUI(station) },
+
+                SearchListLongClickListener { station ->
+                    viewModel.onSearchListItemClicked(station) }
             )
         }
 
         val bottomSpaceHeight = resources.getDimensionPixelSize(R.dimen.list_end_padding)
         val dividerHeight = resources.getDimensionPixelSize(R.dimen.list_divider_height)
-        val dividerColor = ContextCompat.getColor(requireContext(), R.color.grey_light)
-        binding.searchList.addItemDecoration(RecyclerViewDecorator(bottomSpaceHeight, dividerHeight, dividerColor))
+        binding.searchList.addItemDecoration(RecyclerViewDecorator(bottomSpaceHeight, dividerHeight))
 
         binding.searchList.adapter = searchListAdapter
         viewModel.searchList.observe(viewLifecycleOwner) { searchList ->
@@ -68,11 +75,13 @@ class SearchFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     viewModel.searchStations(query)
-                    return true
                 }
-                return false
+                return true
             }
-            override fun onQueryTextChange(newText: String?): Boolean { return true }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
         })
 
         return binding.root

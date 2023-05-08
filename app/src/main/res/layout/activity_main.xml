@@ -21,16 +21,18 @@
         app:navGraph="@navigation/navigation"
         tools:ignore="FragmentTagUsage" />
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/fragment_miniplayer"
-        android:layout_width="377dp"
+    <FrameLayout
+        android:id="@+id/container_miniplayer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/nav_host_fragment_activity_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/nav_host_fragment_activity_main"
         app:layout_constraintTop_toTopOf="@+id/nav_host_fragment_activity_main"
-        app:layout_constraintVertical_bias="0.98" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
