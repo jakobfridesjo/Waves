@@ -72,6 +72,33 @@ class MapFragment : Fragment() {
         setupMap()
         addMarkers()
 
+        binding.mapView.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_UP -> {
+                    // Wait for map to be ready
+                    if (binding.mapView.overlays.size > 0) {
+                        val center = mapView.mapCenter
+                        val closest: Marker? = findClosestMarker(binding.mapView.overlays.filterIsInstance<Marker>(),
+                            center as GeoPoint
+                        )
+                        val radiusPx = binding.selector.width / 2L
+                        val projection = binding.mapView.projection
+                        val centerPixels = projection.toPixels(center, null)
+                        val closestPixels = projection.toPixels(closest!!.position, null)
+                        val distanceToCenter = sqrt(
+                            (closestPixels.x - centerPixels.x).toDouble().pow(2.0)
+                                    + (closestPixels.y - centerPixels.y).toDouble().pow(2.0)
+                        )
+                        if (distanceToCenter <= radiusPx) {
+                            binding.mapView.controller.animateTo(closest.position)
+                            viewModel.getStation(closest.title)
+                        }
+                    }
+                }
+            }
+            false
+        }
+
         // Handle miniplayer
         viewModel.station.observe(viewLifecycleOwner) {
             myFragment?.startPlayer(it)
