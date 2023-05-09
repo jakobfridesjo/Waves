@@ -16,20 +16,16 @@
             name="station"
             type="com.example.myapplication.model.Station" />
 
-        <variable
-            name="nowPlaying"
-            type="com.example.myapplication.model.NowPlaying" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_miniplayer"
-        android:layout_width="380dp"
-        android:layout_height="75dp"
+        android:layout_width="370dp"
+        android:layout_height="60dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="4dp"
         android:background="@drawable/rectangle"
-        android:padding="8dp"
         android:visibility="@{(station != null) ? View.VISIBLE : View.GONE}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,13 +33,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/channelView"
+            android:id="@+id/stationImage"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_weight="0"
             android:contentDescription="@string/channel_image"
-            android:scaleType="fitCenter"
+            android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,15 +46,16 @@
             app:stationImageUrl="@{station.favicon}" />
 
         <TextView
-            android:id="@+id/channelText"
+            android:id="@+id/stationName"
             android:layout_width="0dp"
-            android:layout_height="26sp"
+            android:layout_height="0dp"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
-            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
             android:contentDescription="@string/channel_name"
             android:ellipsize="end"
-            android:gravity="start|center_vertical"
+            android:gravity="start|center_horizontal|center_vertical"
             android:maxLines="2"
             android:paddingStart="6dp"
             android:paddingTop="6dp"
@@ -68,19 +64,19 @@
             android:scrollHorizontally="true"
             android:text="@{station.name}"
             android:textAlignment="gravity"
-            android:textSize="12sp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/stationImage"
             app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
-            app:layout_constraintStart_toEndOf="@+id/channelView"
-            app:layout_constraintTop_toTopOf="@+id/channelView" />
+            app:layout_constraintStart_toEndOf="@+id/stationImage"
+            app:layout_constraintTop_toTopOf="@+id/stationImage" />
 
         <ImageView
             android:id="@+id/favoriteButton"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_weight="0"
             android:contentDescription="@string/favorite_button"
-            android:onClick="@{ () -> viewModel.onSaveStation(station)}"
+            android:onClick="@{ () -> viewModel.onSaveStation(station.stationUUID)}"
             android:visibility="@{viewModel.isFavorite ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/unFavoriteButton"
@@ -93,9 +89,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="4dp"
-            android:layout_weight="0"
             android:contentDescription="@string/remove_favorite_channel"
-            android:onClick="@{ () -> viewModel.onDeleteStation(station)}"
+            android:onClick="@{ () -> viewModel.onDeleteStation(station.stationUUID)}"
             android:visibility="@{viewModel.isFavorite ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/playButton"
@@ -108,7 +103,6 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="0"
             android:contentDescription="@string/play_button"
             android:onClick="@{ () -> viewModel.stopPlayer()}"
             android:scaleType="centerCrop"
@@ -124,7 +118,6 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="0"
             android:contentDescription="@string/play_button"
             android:onClick="@{ () -> viewModel.startPlayer()}"
             android:scaleType="centerCrop"
@@ -133,33 +126,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_stop_light" />
-
-        <TextView
-            android:id="@+id/nowPlaying"
-            android:layout_width="0dp"
-            android:layout_height="12sp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:text="@{nowPlaying.title}"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/artist"
-            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/channelView"
-            app:layout_constraintTop_toBottomOf="@+id/channelText" />
-
-        <TextView
-            android:id="@+id/artist"
-            android:layout_width="0dp"
-            android:layout_height="12sp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:text="@{nowPlaying.artist}"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/channelView"
-            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/channelView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

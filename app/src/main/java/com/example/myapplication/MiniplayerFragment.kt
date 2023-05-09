@@ -45,7 +45,7 @@ class MiniplayerFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[MiniplayerViewModel::class.java]
 
         viewModel.station.observe(viewLifecycleOwner) {
-            binding.station = it
+            binding.station = it[0]
         }
 
         return binding.root
@@ -61,6 +61,6 @@ class MiniplayerFragment : Fragment() {
     }
 
     fun refreshUI(station: Station) {
-        binding.station = station
+        viewModel.refreshStation(station)
     }
 }

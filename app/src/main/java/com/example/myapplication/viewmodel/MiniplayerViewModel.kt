@@ -4,13 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.MediaPlayerService
 import com.example.myapplication.data.StationRepository
 import com.example.myapplication.model.Station
-import com.ltu.m7019e.v23.themoviedb.network.DataFetchStatus
 import kotlinx.coroutines.launch
 
 
@@ -19,8 +15,8 @@ class MiniplayerViewModel(
     private val stationRepository: StationRepository,
     application: Application) : AndroidViewModel(application) {
 
-    private val _station = MutableLiveData<Station>()
-    val station: LiveData<Station>
+    private val _station = MutableLiveData<List<Station>>()
+    val station: LiveData<List<Station>>
         get() {
             return _station
         }
@@ -35,30 +31,39 @@ class MiniplayerViewModel(
 
     init {
         viewModelScope.launch {
-            _isFavorite.value = stationRepository.isFavorite(stationArg)
+            _isFavorite.value = stationRepository.isFavorite(stationArg.stationUUID)
             // TODO
             _isPlaying.value = true
         }
     }
 
-    fun onSaveStation(station: Station) {
+    fun onSaveStation(stationUUID: String) {
         viewModelScope.launch {
-            stationRepository.insertStations(listOf(station))
+            val station = stationRepository.getStation(stationUUID)
+            stationRepository.insertStations(station)
         }
-        setIsFavorite(station)
+        viewModelScope.launch {
+            stationRepository.setFavorite(stationUUID, true)
+        }
+        setIsFavorite(stationUUID)
     }
 
-    fun onDeleteStation(station: Station) {
+    fun onDeleteStation(stationUUID: String) {
         viewModelScope.launch {
-            stationRepository.deleteStations(listOf(station))
+            val station = stationRepository.getStation(stationUUID)
+            stationRepository.deleteStations(station)
         }
+        viewModelScope.launch {
+            stationRepository.setFavorite(stationUUID, false)
+        }
+        setIsFavorite(stationUUID)
     }
 
-    private fun setIsFavorite(station: Station) {
+    private fun setIsFavorite(stationUUID: String) {
         viewModelScope.launch {
-            _isFavorite.value = stationRepository.isFavorite(station)
+            _isFavorite.value = stationRepository.isFavorite(stationUUID)
         }
-        setIsFavorite(station)
+        setIsFavorite(stationUUID)
     }
 
     fun stopPlayer() {
@@ -71,5 +76,9 @@ class MiniplayerViewModel(
         viewModelScope.launch {
             _isPlaying.value = true
         }
+    }
+
+    fun refreshStation(station: Station) {
+        this._station.value = listOf(station)
     }
 }

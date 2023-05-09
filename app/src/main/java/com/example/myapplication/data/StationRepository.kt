@@ -1,11 +1,11 @@
 package com.example.myapplication.data
 
 import com.example.myapplication.database.StationDatabaseDao
-import com.example.myapplication.model.NowPlaying
+import com.example.myapplication.model.Click
 import com.example.myapplication.model.Station
+import com.example.myapplication.model.Vote
 import com.example.myapplication.network.RadioBrowserApiService
 import timber.log.Timber
-import java.util.UUID
 
 interface StationRepository {
 
@@ -15,39 +15,21 @@ interface StationRepository {
     suspend fun searchStationByName(name: String): List<Station>
     suspend fun deleteStations(stations: List<Station>)
     suspend fun insertStations(stations: List<Station>)
-    suspend fun setFavorite(station: Station, value: Boolean)
-    suspend fun getStation(stationUUID: String): Station
-    suspend fun getCurrentlyPlayingStation(): Station
-    suspend fun setCurrentlyPlayingStation(station: Station)
-    suspend fun isFavorite(station: Station): Boolean
-    suspend fun getNowPlaying(stationUUID: String): List<NowPlaying>
-    suspend fun postVote(stationUUID: String, action: String)
-    suspend fun postClick(stationUUID: String)
+    suspend fun setFavorite(stationUUID: String, value: Boolean)
+    suspend fun getStation(stationUUID: String): List<Station>
+    suspend fun isFavorite(stationUUID: String): Boolean
+    suspend fun postVote(vote: Vote)
+    suspend fun postClick(click: Click)
 
 }
 
 class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDao, private val radioBrowserApiService: RadioBrowserApiService) : StationRepository {
 
-    private lateinit var currentlyPlayingStation: Station
-
-    /**
-     * Gets the currently playing station
-     */
-    override suspend fun getCurrentlyPlayingStation(): Station {
-        return currentlyPlayingStation
-    }
-
-    /**
-     * Gets the currently playing station
-     */
-    override suspend fun setCurrentlyPlayingStation(station: Station) {
-        currentlyPlayingStation = station
-    }
 
     /**
      * Gets the station by UUID
      */
-    override suspend fun getStation(stationUUID: String): Station {
+    override suspend fun getStation(stationUUID: String): List<Station> {
         return radioBrowserApiService.getStationByUUID(stationUUID)
     }
 
@@ -103,8 +85,8 @@ class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDa
         return emptyList()
     }
 
-    override suspend fun setFavorite(station: Station, value: Boolean) {
-        stationDatabaseDao.setFavoriteStation(station.stationUUID, value)
+    override suspend fun setFavorite(stationUUID: String, value: Boolean) {
+        stationDatabaseDao.setFavoriteStation(stationUUID, value)
     }
 
     /**
@@ -124,29 +106,22 @@ class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDa
     /**
      * Checks if a station is favorited
      */
-    override suspend fun isFavorite(station: Station): Boolean {
-        return stationDatabaseDao.isFavorite(station.stationUUID)
-    }
-
-    /**
-     * Returns information about the currently playing station
-     */
-    override suspend fun getNowPlaying(stationUUID: String): List<NowPlaying> {
-        return radioBrowserApiService.getNowPlaying(stationUUID)
+    override suspend fun isFavorite(stationUUID: String): Boolean {
+        return stationDatabaseDao.isFavorite(stationUUID)
     }
 
     /**
      * Posts a vote to a station
      */
-    override suspend fun postVote(stationUUID: String, action: String) {
-        radioBrowserApiService.postVote(stationUUID, action)
+    override suspend fun postVote(vote: Vote) {
+        radioBrowserApiService.postVote(vote.id, vote)
     }
 
     /**
-     * Registers a click on a station
+     * Posts a click on a station
      */
-    override suspend fun postClick(stationUUID: String) {
-        radioBrowserApiService.postClick(stationUUID)
+    override suspend fun postClick(click: Click) {
+        radioBrowserApiService.postClick(click.id, click)
     }
 
 }

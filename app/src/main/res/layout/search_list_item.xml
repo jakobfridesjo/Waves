@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:paddingStart="8dp"
-    android:paddingTop="4dp"
-    android:paddingEnd="8dp"
-    android:paddingBottom="4dp">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <data>
 
@@ -27,10 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:background="@drawable/rectangle"
         android:onClickListener="@{ (view) -> clickListener.onClick(station) }"
-        android:onLongClickListener="@{ (view) -> true }"
-        android:padding="4dp">
+        android:onLongClickListener="@{ (view) -> true }">
 
         <ImageView
             android:id="@+id/station_image"
@@ -63,8 +57,7 @@
             android:text="@{station.name}"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/divider"
+            app:layout_constraintStart_toEndOf="@+id/station_image"
             app:layout_constraintTop_toTopOf="@+id/station_image" />
 
         <TextView
@@ -81,7 +74,7 @@
             app:countryCode="@{station.countryCode}"
             app:layout_constraintBottom_toBottomOf="@+id/station_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider" />
+            app:layout_constraintStart_toEndOf="@+id/station_image" />
 
         <TextView
             android:id="@+id/station_tags"
@@ -97,18 +90,7 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/station_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/divider" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/station_image"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/station_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

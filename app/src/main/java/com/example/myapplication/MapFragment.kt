@@ -65,6 +65,10 @@ class MapFragment : Fragment() {
 
         mapView = binding.mapView
 
+        // For controlling the mini player
+        val fragmentManager = requireActivity().supportFragmentManager
+        val myFragment = fragmentManager.findFragmentByTag("fragment_miniplayer") as MiniplayerFragment?
+
         // Setup the map view
         val sharedPreferences = context?.getSharedPreferences("map_prefs", Context.MODE_PRIVATE)
         Configuration.getInstance().load(context, sharedPreferences)
@@ -91,11 +95,16 @@ class MapFragment : Fragment() {
                     )
                     if (distanceToCenter <= radiusPx) {
                         binding.mapView.controller.animateTo(closest.position)
-                        startMediaService(application, closest.title)
+                        viewModel.getStation(closest.title)
                     }
                 }
             }
             false
+        }
+
+        viewModel.station.observe(viewLifecycleOwner) {
+            myFragment?.refreshUI(it)
+            startMediaService(application, it.urlResolved)
         }
 
         // Add markers
@@ -108,10 +117,8 @@ class MapFragment : Fragment() {
                     .map {
                         val marker = Marker(binding.mapView)
                         marker.position = GeoPoint(it.geo_lat!!, it.geo_long!!)
-                        if (it.urlResolved.isNotEmpty()) {
-                            marker.title = it.urlResolved
-                        } else {
-                            marker.title = it.url
+                        if (it.stationUUID.isNotEmpty()) {
+                            marker.title = it.stationUUID
                         }
                         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
                         marker.icon = bitmap

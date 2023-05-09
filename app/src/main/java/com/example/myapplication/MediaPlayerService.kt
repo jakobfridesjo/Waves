@@ -5,11 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
-import android.os.Handler
-import android.os.HandlerThread
 import android.os.IBinder
 import android.os.PowerManager
-import androidx.fragment.app.FragmentManager
 import java.io.IOException
 
 class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
