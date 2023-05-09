@@ -3,6 +3,7 @@ package com.example.myapplication.data
 import com.example.myapplication.database.StationDatabaseDao
 import com.example.myapplication.model.Click
 import com.example.myapplication.model.Station
+import com.example.myapplication.model.StationAttributes
 import com.example.myapplication.model.Vote
 import com.example.myapplication.network.RadioBrowserApiService
 import timber.log.Timber
@@ -101,6 +102,14 @@ class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDa
      */
     override suspend fun insertStations(stations: List<Station>) {
         stationDatabaseDao.insertStations(stations)
+        stations.forEach {
+            stationDatabaseDao.insertStationAttribute(StationAttributes(it.stationUUID,
+                topClicked = false,
+                topVoted = false,
+                favorite = false
+                )
+            )
+        }
     }
 
     /**

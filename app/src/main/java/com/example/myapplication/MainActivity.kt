@@ -30,13 +30,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /* Get binding of the main activity*/
+        // Get binding of the main activity
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /* Bottom nav bar */
+        // Bottom nav bar
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations
         val appBarConfiguration = AppBarConfiguration(setOf(
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        // Setup the miniplayer
         val miniplayerFragment = MiniplayerFragment()
         supportFragmentManager.beginTransaction()
             .add(R.id.container_miniplayer, miniplayerFragment, "fragment_miniplayer")

@@ -5,6 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.MediaPlayerService.Companion.startMediaService
+import com.example.myapplication.MediaPlayerService.Companion.stopMediaService
 import com.example.myapplication.data.StationRepository
 import com.example.myapplication.model.Station
 import kotlinx.coroutines.launch
@@ -13,7 +15,7 @@ import kotlinx.coroutines.launch
 class MiniplayerViewModel(
     private val stationArg: Station,
     private val stationRepository: StationRepository,
-    application: Application) : AndroidViewModel(application) {
+    private val application: Application) : AndroidViewModel(application) {
 
     private val _station = MutableLiveData<List<Station>>()
     val station: LiveData<List<Station>>
@@ -63,22 +65,19 @@ class MiniplayerViewModel(
         viewModelScope.launch {
             _isFavorite.value = stationRepository.isFavorite(stationUUID)
         }
-        setIsFavorite(stationUUID)
     }
 
     fun stopPlayer() {
         viewModelScope.launch {
             _isPlaying.value = false
+            stopMediaService(application)
         }
     }
 
-    fun startPlayer() {
+    fun startPlayer(station: Station) {
         viewModelScope.launch {
             _isPlaying.value = true
+            startMediaService(application, station.urlResolved)
         }
-    }
-
-    fun refreshStation(station: Station) {
-        this._station.value = listOf(station)
     }
 }

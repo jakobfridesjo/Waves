@@ -37,7 +37,6 @@ class MiniplayerFragment : Fragment() {
         val stationRepository = appContainer.stationRepository
         val application = requireNotNull(this.activity).application
 
-        //TODO TEST
         val station = Station()
 
         // Connect ViewModel
@@ -51,7 +50,6 @@ class MiniplayerFragment : Fragment() {
         return binding.root
     }
 
-
     /*
     * Destructor for fragment, just clear binding for now
     */
@@ -60,7 +58,8 @@ class MiniplayerFragment : Fragment() {
         _binding = null
     }
 
-    fun refreshUI(station: Station) {
-        viewModel.refreshStation(station)
+    fun startPlayer(station: Station) {
+        viewModel.startPlayer(station)
     }
+
 }

@@ -148,7 +148,7 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener, MediaPlaye
         /**
          * Stop media player service
          */
-        private fun stopMediaService(context: Context) {
+        fun stopMediaService(context: Context) {
             mMediaPlayerIntent?.let {
                 context.stopService(Intent(context, MediaPlayerService::class.java).apply {
                     action = it.action

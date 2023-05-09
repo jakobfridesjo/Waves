@@ -50,8 +50,8 @@ class SearchFragment : Fragment() {
                 it,
                 SearchListClickListener { station ->
                     viewModel.onSearchListItemClicked(station)
-                    // Refresh player on playing channel
-                    myFragment?.refreshUI(station) },
+                    // Play channel
+                    myFragment?.startPlayer(station)},
 
                 SearchListLongClickListener { station ->
                     viewModel.onSearchListItemClicked(station) }
@@ -78,10 +78,7 @@ class SearchFragment : Fragment() {
                 }
                 return true
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
+            override fun onQueryTextChange(newText: String?): Boolean { return true }
         })
 
         return binding.root

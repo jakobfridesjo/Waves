@@ -9,11 +9,11 @@ import com.example.myapplication.data.StationRepository
 import com.example.myapplication.model.Station
 import com.ltu.m7019e.v23.themoviedb.network.DataFetchStatus
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import com.example.myapplication.MediaPlayerService.Companion.startMediaService
 
 class MapViewModel(
     private val stationRepository: StationRepository,
-    application: Application) : AndroidViewModel(application) {
+    private val application: Application) : AndroidViewModel(application) {
 
     private val _dataFetchStatus = MutableLiveData<DataFetchStatus>()
     val dataFetchStatus: LiveData<DataFetchStatus>
@@ -41,7 +41,7 @@ class MapViewModel(
     /**
      * Gets the top stations
      */
-    fun getTopStations() {
+    private fun getTopStations() {
         viewModelScope.launch {
             try {
                 _stationList.value = stationRepository.getTopVoted()
@@ -59,12 +59,18 @@ class MapViewModel(
     fun getStation(stationUUID: String) {
         viewModelScope.launch {
             try {
-                println("TESTING STUFF")
                 _station.value = stationRepository.getStation(stationUUID)[0]
                 println(station)
             } catch (e: java.lang.Exception) {
-                println("GETTING STATION FAILED")
+                //TODO Do something here
             }
         }
+    }
+
+    /**
+     * Start the media service
+     */
+    fun playStation(stationUrl: String) {
+        startMediaService(application, stationUrl)
     }
 }

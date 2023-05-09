@@ -7,11 +7,15 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RewriteQueriesToDropUnusedColumns
 import com.example.myapplication.model.Station
+import com.example.myapplication.model.StationAttributes
 
 @Dao
 interface StationDatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStations(stations: List<Station>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertStationAttribute(stationAttributes: StationAttributes)
 
     @Delete
     suspend fun deleteStations(stations: List<Station>)
