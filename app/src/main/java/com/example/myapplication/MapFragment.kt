@@ -78,34 +78,6 @@ class MapFragment : Fragment() {
             startMediaService(application, it.urlResolved)
         }
 
-
-        binding.mapView.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_UP -> {
-                    // Wait for map to be ready
-                    if (binding.mapView.overlays.size > 0) {
-                        val center = mapView.mapCenter
-                        val closest: Marker? = findClosestMarker(binding.mapView.overlays.filterIsInstance<Marker>(),
-                            center as GeoPoint
-                        )
-                        val radiusPx = binding.selector.width / 2L
-                        val projection = binding.mapView.projection
-                        val centerPixels = projection.toPixels(center, null)
-                        val closestPixels = projection.toPixels(closest!!.position, null)
-                        val distanceToCenter = sqrt(
-                            (closestPixels.x - centerPixels.x).toDouble().pow(2.0)
-                                    + (closestPixels.y - centerPixels.y).toDouble().pow(2.0)
-                        )
-                        if (distanceToCenter <= radiusPx) {
-                            binding.mapView.controller.animateTo(closest.position)
-                            viewModel.getStation(closest.title)
-                        }
-                    }
-                }
-            }
-            false
-        }
-
         return binding.root
     }
     override fun onDestroyView() {
@@ -124,10 +96,10 @@ class MapFragment : Fragment() {
     private fun addMarkers() {
         // Add markers
         viewModel.stationList.observe(viewLifecycleOwner) { stationList ->
-
+            val bitmap = generateCircle(5, Color.GREEN)
             stationList?.let {
-                val bitmap = generateCircle(5, Color.GREEN)
                 val markers = stationList
+                    .filter { it.geo_lat != null && it.geo_long != null }
                     .map {
                         val marker = Marker(binding.mapView)
                         marker.position = GeoPoint(it.geo_lat!!, it.geo_long!!)
