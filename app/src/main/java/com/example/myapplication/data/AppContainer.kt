@@ -8,14 +8,10 @@ import com.example.myapplication.network.getLoggerIntercepter
 import com.example.myapplication.utils.Constants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import timber.log.Timber
 import java.net.InetAddress
-import java.util.Random
 import java.util.concurrent.TimeUnit
 
 interface AppContainer {

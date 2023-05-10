@@ -9,7 +9,7 @@ import com.example.myapplication.MediaPlayerService.Companion.startMediaService
 import com.example.myapplication.data.StationRepository
 import com.example.myapplication.model.Click
 import com.example.myapplication.model.Station
-import com.ltu.m7019e.v23.themoviedb.network.DataFetchStatus
+import com.example.myapplication.network.DataFetchStatus
 import kotlinx.coroutines.launch
 
 class SearchViewModel(

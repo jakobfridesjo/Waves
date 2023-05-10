@@ -4,30 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.adapter.FavoritesListAdapter
 import com.example.myapplication.adapter.FavoritesListClickListener
 import com.example.myapplication.adapter.FavoritesListLongClickListener
-import com.example.myapplication.database.StationDatabase
-import com.example.myapplication.database.StationDatabaseDao
 import com.example.myapplication.databinding.FragmentFavoritesBinding
 import com.example.myapplication.utils.RecyclerViewDecorator
 import com.example.myapplication.viewmodel.FavoritesListViewModel
 import com.example.myapplication.viewmodel.FavoritesListViewModelFactory
 
 /**
- * A simple [Fragment] subclass.
- * Use the [MapFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * A fragment for displaying favorite stations
  */
 class FavoritesFragment : Fragment() {
 
     private lateinit var viewModel: FavoritesListViewModel
     private lateinit var viewModelFactory: FavoritesListViewModelFactory
-
-    private lateinit var stationDatabaseDao: StationDatabaseDao
 
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!

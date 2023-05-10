@@ -19,15 +19,13 @@ class FavoritesListViewModel(
             return _favoritesList
         }
 
-    fun getSavedFavorites() {
-        viewModelScope.launch {
-            _favoritesList.value = stationRepository.getFavorites()
-        }
+    init {
+        getSavedFavorites()
     }
 
-    fun addFavorites() {
+    private fun getSavedFavorites() {
         viewModelScope.launch {
-            _favoritesList.value?.let { stationRepository.insertStations(it) }
+            _favoritesList.value = stationRepository.getFavorites()
         }
     }
 

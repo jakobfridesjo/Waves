@@ -3,9 +3,6 @@ package com.example.myapplication.network
 import com.example.myapplication.model.Click
 import com.example.myapplication.model.Station
 import com.example.myapplication.model.Vote
-import com.example.myapplication.utils.Constants
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.http.Body
@@ -13,8 +10,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.net.InetAddress
-import java.util.Random
 
 /**
  * Add a httpclient logger for debugging purpose

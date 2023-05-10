@@ -7,9 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.StationRepository
 import com.example.myapplication.model.Station
-import com.ltu.m7019e.v23.themoviedb.network.DataFetchStatus
 import kotlinx.coroutines.launch
-import com.example.myapplication.MediaPlayerService.Companion.startMediaService
+import com.example.myapplication.network.DataFetchStatus
 
 class MapViewModel(
     private val stationRepository: StationRepository,
@@ -65,12 +64,5 @@ class MapViewModel(
                 //TODO Do something here
             }
         }
-    }
-
-    /**
-     * Start the media service
-     */
-    fun playStation(stationUrl: String) {
-        startMediaService(application, stationUrl)
     }
 }

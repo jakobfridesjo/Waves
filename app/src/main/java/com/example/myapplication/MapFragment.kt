@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -20,7 +19,6 @@ import com.example.myapplication.databinding.FragmentMapBinding
 import com.example.myapplication.utils.Constants.ESRI_BASE_URL
 import com.example.myapplication.viewmodel.MapViewModel
 import com.example.myapplication.viewmodel.MapViewModelFactory
-import kotlinx.coroutines.Dispatchers
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
 import org.osmdroid.util.GeoPoint
@@ -34,9 +32,7 @@ import kotlin.math.sqrt
 
 
 /**
- * A simple [Fragment] subclass.
- * Use the [MapFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * A fragment for displaying the map
  */
 class MapFragment : Fragment() {
 
@@ -160,7 +156,7 @@ class MapFragment : Fragment() {
         // Disable repetition and set scrolling limits so that the map only tiles horizontally
         binding.mapView.isVerticalMapRepetitionEnabled = false
         binding.mapView.setScrollableAreaLimitLatitude(MapView.getTileSystem().maxLatitude,
-            MapView.getTileSystem().minLatitude, 0);
+            MapView.getTileSystem().minLatitude, 0)
 
         // Set reasonable levels of details for zoom in and out
         binding.mapView.minZoomLevel = 3.0
@@ -192,6 +188,7 @@ class MapFragment : Fragment() {
     /*
      * Generates a drawable circle bitmap
      */
+    @Suppress("SameParameterValue")
     private fun generateCircle(diameter: Int, color: Int): BitmapDrawable {
 
         val circleBMP = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888)

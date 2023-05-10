@@ -5,19 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.adapter.SearchListAdapter
 import com.example.myapplication.adapter.SearchListClickListener
 import com.example.myapplication.adapter.SearchListLongClickListener
 import com.example.myapplication.databinding.FragmentSearchBinding
-import com.example.myapplication.model.Click
-import com.example.myapplication.utils.Constants
 import com.example.myapplication.utils.RecyclerViewDecorator
 import com.example.myapplication.viewmodel.SearchViewModel
 import com.example.myapplication.viewmodel.SearchViewModelFactory
-import kotlin.reflect.jvm.internal.impl.resolve.scopes.receivers.ContextClassReceiver
 
 
 class SearchFragment : Fragment() {
