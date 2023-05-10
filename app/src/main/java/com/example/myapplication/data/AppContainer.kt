@@ -8,9 +8,14 @@ import com.example.myapplication.network.getLoggerIntercepter
 import com.example.myapplication.utils.Constants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import timber.log.Timber
+import java.net.InetAddress
+import java.util.Random
 import java.util.concurrent.TimeUnit
 
 interface AppContainer {
@@ -31,6 +36,19 @@ class DefaultAppContainer(context: Context) : AppContainer {
         .build()
 
     /**
+     * Gets the base url by a dns lookuph
+     */
+    private fun getRadioApiBaseUrl(): String {
+        return try {
+            val inetAddresses = InetAddress.getAllByName(Constants.RADIO_API_BASE_HOST)
+            val addresses = inetAddresses.mapNotNull { it.hostAddress }
+            addresses.shuffled().first()
+        } catch (e: Exception) {
+            Constants.RADIO_API_BASE_URL_DEFAULT
+        }
+    }
+
+    /**
      * Use the Retrofit builder to build a retrofit object using a Moshi converter with our Moshi
      * object.
      */
@@ -43,7 +61,7 @@ class DefaultAppContainer(context: Context) : AppContainer {
                 .build()
         )
         .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .baseUrl(Constants.RADIO_API_BASE_URL)
+        .baseUrl(getRadioApiBaseUrl())
         .build()
 
     /**

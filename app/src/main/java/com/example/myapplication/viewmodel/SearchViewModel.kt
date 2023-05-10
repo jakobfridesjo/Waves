@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.MediaPlayerService.Companion.startMediaService
 import com.example.myapplication.data.StationRepository
+import com.example.myapplication.model.Click
 import com.example.myapplication.model.Station
 import com.ltu.m7019e.v23.themoviedb.network.DataFetchStatus
 import kotlinx.coroutines.launch
@@ -31,6 +32,9 @@ class SearchViewModel(
         _dataFetchStatus.value = DataFetchStatus.LOADING
     }
 
+    /**
+     * Start media service if list item is clicked
+     */
     fun onSearchListItemClicked(station: Station) {
         viewModelScope.launch {
             if (station.urlResolved.isNotEmpty()) {
@@ -41,6 +45,9 @@ class SearchViewModel(
         }
     }
 
+    /**
+     * Search for a station by name
+     */
     fun searchStations(name: String) {
         viewModelScope.launch {
             try {
@@ -50,6 +57,15 @@ class SearchViewModel(
                 _dataFetchStatus.value = DataFetchStatus.ERROR
                 _searchList.value = arrayListOf()
             }
+        }
+    }
+
+    /**
+     * Posts a click on a station
+     */
+    fun postClick(station: Station) {
+        viewModelScope.launch {
+            stationRepository.postClick(Click(station.stationUUID, 1))
         }
     }
 }

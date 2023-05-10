@@ -3,6 +3,9 @@ package com.example.myapplication.network
 import com.example.myapplication.model.Click
 import com.example.myapplication.model.Station
 import com.example.myapplication.model.Vote
+import com.example.myapplication.utils.Constants
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.http.Body
@@ -10,6 +13,8 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.net.InetAddress
+import java.util.Random
 
 /**
  * Add a httpclient logger for debugging purpose
@@ -51,16 +56,16 @@ interface RadioBrowserApiService {
         @Query("name") name: String = ""
     ): List<Station>
 
-    //TODO UNTESTED, NOT WELL DOCUMENTED
-    @POST("stations/{id}/vote")
+    @POST("url/{id}")
+    suspend fun postClick(
+        @Path("id") id: String,
+        @Body click: Click
+    ): Response<Unit>
+
+    @POST("vote/{id}")
     suspend fun postVote(
         @Path("id") id: String,
         @Body vote: Vote
     ): Response<Unit>
 
-    @POST("stations/{id}/click")
-    suspend fun postClick(
-        @Path("id") id: String,
-        @Body click: Click
-    ): Response<Unit>
 }

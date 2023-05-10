@@ -12,6 +12,8 @@ import com.example.myapplication.adapter.SearchListAdapter
 import com.example.myapplication.adapter.SearchListClickListener
 import com.example.myapplication.adapter.SearchListLongClickListener
 import com.example.myapplication.databinding.FragmentSearchBinding
+import com.example.myapplication.model.Click
+import com.example.myapplication.utils.Constants
 import com.example.myapplication.utils.RecyclerViewDecorator
 import com.example.myapplication.viewmodel.SearchViewModel
 import com.example.myapplication.viewmodel.SearchViewModelFactory
@@ -50,6 +52,9 @@ class SearchFragment : Fragment() {
                 it,
                 SearchListClickListener { station ->
                     viewModel.onSearchListItemClicked(station)
+                    // Post Click
+                    viewModel.postClick(station)
+
                     // Play channel
                     myFragment?.startPlayer(station)},
 

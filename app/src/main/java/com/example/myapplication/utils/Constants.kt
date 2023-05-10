@@ -1,8 +1,18 @@
 package com.example.myapplication.utils
 
+import android.os.AsyncTask
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.net.InetAddress
+import java.net.UnknownHostException
+import java.util.Random
+import java.util.Vector
+
+
 object Constants {
-    val RADIO_API_BASE_URL = "https://de1.api.radio-browser.info/json/"
-    val ESRI_BASE_URL = "https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/"
-    val IMAGE_WIDTH = 256
-    val IMAGE_HEIGHT = 256
+
+    const val RADIO_API_BASE_HOST = "all.api.radio-browser.info"
+    const val RADIO_API_BASE_URL_DEFAULT = "https://de1.api.radio-browser.info/json/"
+    const val ESRI_BASE_URL = "https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/"
+
 }
