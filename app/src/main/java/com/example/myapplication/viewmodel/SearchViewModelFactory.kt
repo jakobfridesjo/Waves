@@ -11,7 +11,8 @@ class SearchViewModelFactory(
     private val application: Application): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(SearchViewModel::class.java)) {
-            return SearchViewModel(stationRepository, application) as T
+            return SearchViewModel(
+                stationRepository, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

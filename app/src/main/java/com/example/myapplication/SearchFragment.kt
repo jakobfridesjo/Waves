@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.adapter.SearchListAdapter
 import com.example.myapplication.adapter.SearchListClickListener
@@ -14,6 +15,8 @@ import com.example.myapplication.databinding.FragmentSearchBinding
 import com.example.myapplication.utils.RecyclerViewDecorator
 import com.example.myapplication.viewmodel.SearchViewModel
 import com.example.myapplication.viewmodel.SearchViewModelFactory
+import com.example.myapplication.viewmodel.SharedMiniPlayerViewModel
+import com.example.myapplication.viewmodel.SharedMiniPlayerViewModelFactory
 
 
 class SearchFragment : Fragment() {
@@ -22,6 +25,8 @@ class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
     private lateinit var viewModelFactory: SearchViewModelFactory
+    private val sharedMiniPlayerViewModel: SharedMiniPlayerViewModel by activityViewModels()
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -36,10 +41,6 @@ class SearchFragment : Fragment() {
         val stationRepository = appContainer.stationRepository
         val application = requireNotNull(this.activity).application
 
-        // For controlling the mini player
-        val fragmentManager = requireActivity().supportFragmentManager
-        val myFragment = fragmentManager.findFragmentByTag("fragment_miniplayer") as MiniplayerFragment?
-
         viewModelFactory = SearchViewModelFactory(stationRepository, application)
         viewModel = ViewModelProvider(this, viewModelFactory)[SearchViewModel::class.java]
 
@@ -52,7 +53,8 @@ class SearchFragment : Fragment() {
                     viewModel.postClick(station)
 
                     // Play channel
-                    myFragment?.startPlayer(station)},
+                    sharedMiniPlayerViewModel.startPlayer(station)
+                    },
 
                 SearchListLongClickListener { station ->
                     viewModel.onSearchListItemClicked(station) }

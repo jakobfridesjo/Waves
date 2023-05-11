@@ -13,12 +13,15 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import com.caverock.androidsvg.BuildConfig
 import com.example.myapplication.MediaPlayerService.Companion.startMediaService
 import com.example.myapplication.databinding.FragmentMapBinding
 import com.example.myapplication.utils.Constants.ESRI_BASE_URL
 import com.example.myapplication.viewmodel.MapViewModel
 import com.example.myapplication.viewmodel.MapViewModelFactory
+import com.example.myapplication.viewmodel.SharedMiniPlayerViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
 import org.osmdroid.util.GeoPoint
@@ -43,6 +46,7 @@ class MapFragment : Fragment() {
     private lateinit var viewModel: MapViewModel
     private lateinit var viewModelFactory: MapViewModelFactory
     private lateinit var mapView: MapView
+    private val sharedMiniPlayerViewModel: SharedMiniPlayerViewModel by activityViewModels()
     private val binding get() = _binding!!
 
     @SuppressLint("ClickableViewAccessibility")
@@ -60,15 +64,11 @@ class MapFragment : Fragment() {
         viewModelFactory = MapViewModelFactory(stationRepository, application)
         viewModel = ViewModelProvider(this, viewModelFactory)[MapViewModel::class.java]
 
-        // For controlling the mini player
-        val fragmentManager = requireActivity().supportFragmentManager
-        val myFragment = fragmentManager.findFragmentByTag("fragment_miniplayer") as MiniplayerFragment?
-
         // Setup the map view
         setupMap()
         addMarkers()
 
-        binding.mapView.setOnTouchListener { v, event ->
+        binding.mapView.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_UP -> {
                     // Wait for map to be ready
@@ -96,9 +96,8 @@ class MapFragment : Fragment() {
         }
 
         // Handle miniplayer
-        viewModel.station.observe(viewLifecycleOwner) {
-            myFragment?.startPlayer(it)
-            startMediaService(application, it.urlResolved)
+        viewModel.station.observe(viewLifecycleOwner) { station ->
+            sharedMiniPlayerViewModel.startPlayer(station)
         }
 
         return binding.root

@@ -8,16 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.FragmentMiniplayerBinding
 import com.example.myapplication.model.Station
-import com.example.myapplication.viewmodel.MiniplayerViewModel
-import com.example.myapplication.viewmodel.MiniplayerViewModelFactory
+import com.example.myapplication.viewmodel.SharedMiniPlayerViewModel
+import com.example.myapplication.viewmodel.SharedMiniPlayerViewModelFactory
 
 /**
  * A fragment for displaying a mini player
  */
-class MiniplayerFragment : Fragment() {
+class MiniPlayerFragment : Fragment() {
 
-    private lateinit var viewModelFactory: MiniplayerViewModelFactory
-    private lateinit var viewModel: MiniplayerViewModel
+    private lateinit var viewModelFactory: SharedMiniPlayerViewModelFactory
+    private lateinit var viewModel: SharedMiniPlayerViewModel
     private var _binding: FragmentMiniplayerBinding? = null
     private val binding get() = _binding!!
 
@@ -31,14 +31,20 @@ class MiniplayerFragment : Fragment() {
         val stationRepository = appContainer.stationRepository
         val application = requireNotNull(this.activity).application
 
-        val station = Station()
-
         // Connect ViewModel
-        viewModelFactory = MiniplayerViewModelFactory(station, stationRepository, application)
-        viewModel = ViewModelProvider(this, viewModelFactory)[MiniplayerViewModel::class.java]
+        viewModelFactory = SharedMiniPlayerViewModelFactory(stationRepository, application)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory)[SharedMiniPlayerViewModel::class.java]
 
         viewModel.station.observe(viewLifecycleOwner) {
             binding.station = it[0]
+        }
+
+        viewModel.isFavorite.observe(viewLifecycleOwner) {
+            binding.isPlaying = it
+        }
+
+        viewModel.isFavorite.observe(viewLifecycleOwner) {
+            binding.isFavorite = it
         }
 
         return binding.root
@@ -51,9 +57,4 @@ class MiniplayerFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    fun startPlayer(station: Station) {
-        viewModel.startPlayer(station)
-    }
-
 }

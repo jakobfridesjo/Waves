@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,11 +10,20 @@
 
         <variable
             name="viewModel"
-            type="com.example.myapplication.viewmodel.MiniplayerViewModel" />
+            type="com.example.myapplication.viewmodel.SharedMiniPlayerViewModel" />
 
         <variable
             name="station"
             type="com.example.myapplication.model.Station" />
+
+        <variable
+            name="isPlaying"
+            type="Boolean" />
+
+        <variable
+            name="isFavorite"
+            type="Boolean" />
+
 
     </data>
 
@@ -25,7 +35,6 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="4dp"
         android:background="@drawable/rectangle"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,12 +46,14 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:contentDescription="@string/channel_image"
+            android:padding="4dp"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_no_image_light"
+            tools:srcCompat="@tools:sample/avatars"
             app:stationImageUrl="@{station.favicon}" />
+
 
         <TextView
             android:id="@+id/stationName"
@@ -75,8 +86,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/favorite_button"
-            android:onClick="@{ () -> viewModel.onSaveStation(station.stationUUID)}"
-            android:visibility="@{viewModel.isFavorite ? View.GONE : View.VISIBLE}"
+            android:onClick="@{ () -> viewModel.saveStation(station)}"
+            android:visibility="@{isFavorite ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/unFavoriteButton"
             app:layout_constraintTop_toTopOf="parent"
@@ -89,8 +100,8 @@
             android:layout_height="50dp"
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/remove_favorite_channel"
-            android:onClick="@{ () -> viewModel.onDeleteStation(station.stationUUID)}"
-            android:visibility="@{viewModel.isFavorite ? View.VISIBLE : View.GONE}"
+            android:onClick="@{ () -> viewModel.deleteStation(station)}"
+            android:visibility="@{isFavorite ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/playButton"
             app:layout_constraintTop_toTopOf="parent"
@@ -104,8 +115,8 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/play_button"
             android:onClick="@{ () -> viewModel.stopPlayer()}"
-            android:scaleType="centerCrop"
-            android:visibility="@{viewModel.isPlaying ? View.VISIBLE : View.INVISIBLE}"
+            android:scaleType="fitCenter"
+            android:visibility="@{isPlaying ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -119,8 +130,8 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/play_button"
             android:onClick="@{ () -> viewModel.startPlayer(station)}"
-            android:scaleType="centerCrop"
-            android:visibility="@{viewModel.isPlaying ? View.INVISIBLE : View.VISIBLE}"
+            android:scaleType="fitCenter"
+            android:visibility="@{isPlaying ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -32,9 +32,9 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         // Setup the miniplayer
-        val miniplayerFragment = MiniplayerFragment()
+        val miniPlayerFragment = MiniPlayerFragment()
         supportFragmentManager.beginTransaction()
-            .add(R.id.container_miniplayer, miniplayerFragment, "fragment_miniplayer")
+            .add(R.id.container_miniplayer, miniPlayerFragment, "fragment_miniplayer")
             .commit()
     }
 }

@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.caverock.androidsvg.SVG
 import com.example.myapplication.R
@@ -40,7 +40,7 @@ fun bindStationImage(imgView: ImageView, imgUrl: String?) {
 
                     Glide.with(imgView)
                         .load(drawable)
-                        .transform(CenterInside(), RoundedCorners(8))
+                        .transform(FitCenter(), RoundedCorners(10))
                         .into(imgView)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -52,7 +52,7 @@ fun bindStationImage(imgView: ImageView, imgUrl: String?) {
                 }
                 Glide.with(imgView)
                     .load(imageUrl)
-                    .transform(CenterInside(), RoundedCorners(8))
+                    .transform(FitCenter(), RoundedCorners(10))
                     .into(imgView)
             }
         }
