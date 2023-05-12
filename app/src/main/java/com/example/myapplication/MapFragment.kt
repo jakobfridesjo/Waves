@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.caverock.androidsvg.BuildConfig
-import com.example.myapplication.MediaPlayerService.Companion.startMediaService
 import com.example.myapplication.databinding.FragmentMapBinding
 import com.example.myapplication.utils.Constants.ESRI_BASE_URL
 import com.example.myapplication.viewmodel.MapViewModel

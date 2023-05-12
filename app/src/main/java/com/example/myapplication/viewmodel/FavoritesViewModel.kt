@@ -9,7 +9,7 @@ import com.example.myapplication.data.StationRepository
 import com.example.myapplication.model.Station
 import kotlinx.coroutines.launch
 
-class FavoritesListViewModel(
+class FavoritesViewModel(
     private val stationRepository: StationRepository,
     private val application: Application) : AndroidViewModel(application) {
 

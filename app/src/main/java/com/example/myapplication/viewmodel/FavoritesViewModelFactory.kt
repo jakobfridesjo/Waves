@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.StationRepository
 
 @Suppress("UNCHECKED_CAST")
-class FavoritesListViewModelFactory(
+class FavoritesViewModelFactory(
     private val stationRepository: StationRepository,
     private val application: Application): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(FavoritesListViewModel::class.java)) {
-            return FavoritesListViewModel(stationRepository, application) as T
+        if(modelClass.isAssignableFrom(FavoritesViewModel::class.java)) {
+            return FavoritesViewModel(stationRepository, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

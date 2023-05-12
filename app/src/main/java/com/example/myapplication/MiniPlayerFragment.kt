@@ -49,6 +49,14 @@ class MiniPlayerFragment : Fragment() {
             binding.isFavorite = it
         }
 
+        viewModel.isRecording.observe(viewLifecycleOwner) {
+            binding.isRecording = it
+        }
+
+        viewModel.isEnabled.observe(viewLifecycleOwner) {
+            binding.isEnabled = it
+        }
+
         return binding.root
     }
 

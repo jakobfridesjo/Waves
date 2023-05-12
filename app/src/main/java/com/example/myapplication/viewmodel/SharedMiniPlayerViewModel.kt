@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.MediaPlayerService.Companion.startMediaService
-import com.example.myapplication.MediaPlayerService.Companion.stopMediaService
+import com.example.myapplication.services.MediaPlayerService.Companion.startMediaService
+import com.example.myapplication.services.MediaPlayerService.Companion.stopMediaService
 import com.example.myapplication.data.StationRepository
 import com.example.myapplication.model.Station
 import kotlinx.coroutines.launch
@@ -31,6 +31,14 @@ class SharedMiniPlayerViewModel(
     val isPlaying: LiveData<Boolean>
         get() = _isPlaying
 
+    private val _isRecording = MutableLiveData<Boolean>(false)
+    val isRecording: LiveData<Boolean>
+        get() = _isRecording
+
+    private val _isEnabled = MutableLiveData<Boolean>(false)
+    val isEnabled: LiveData<Boolean>
+        get() = _isEnabled
+
     fun saveStation(station: Station) {
         viewModelScope.launch {
             stationRepository.insertStations(listOf(station))
@@ -53,6 +61,18 @@ class SharedMiniPlayerViewModel(
     fun startPlayer(station: Station) {
         _station.value = listOf(station)
         _isPlaying.value = true
+        _isEnabled.value = true
+        viewModelScope.launch {
+            _isFavorite.value = stationRepository.isFavorite(station.stationUUID)
+        }
         startMediaService(application, station.urlResolved)
+    }
+
+    fun stopRecording() {
+        _isRecording.value = false
+    }
+
+    fun startRecording(station: Station) {
+        _isRecording.value = true
     }
 }

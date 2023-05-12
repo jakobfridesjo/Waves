@@ -57,7 +57,8 @@ class SearchFragment : Fragment() {
                     },
 
                 SearchListLongClickListener { station ->
-                    viewModel.onSearchListItemClicked(station) }
+                    viewModel.onSearchListItemClicked(station)
+                }
             )
         }
 

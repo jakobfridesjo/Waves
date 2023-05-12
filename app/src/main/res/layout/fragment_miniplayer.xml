@@ -24,6 +24,13 @@
             name="isFavorite"
             type="Boolean" />
 
+        <variable
+            name="isRecording"
+            type="Boolean" />
+
+        <variable
+            name="isEnabled"
+            type="Boolean" />
 
     </data>
 
@@ -35,10 +42,24 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="4dp"
         android:background="@drawable/rectangle"
+        android:visibility="@{isEnabled ? View.VISIBLE : View.INVISIBLE}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/stopRecordingButton"
+            android:layout_width="36dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="@{ () -> viewModel.stopRecording()}"
+            android:padding="6dp"
+            android:visibility="@{isRecording ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/favoriteButton"
+            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+            app:layout_constraintTop_toTopOf="@+id/favoriteButton"
+            app:srcCompat="@drawable/ic_record_24" />
 
         <ImageView
             android:id="@+id/stationImage"
@@ -61,7 +82,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
             android:contentDescription="@string/channel_name"
             android:ellipsize="end"
@@ -76,19 +97,19 @@
             android:textAlignment="gravity"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+            app:layout_constraintEnd_toStartOf="@+id/startRecordingButton"
             app:layout_constraintStart_toEndOf="@+id/stationImage"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/favoriteButton"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="4dp"
+            android:layout_width="36dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
             android:contentDescription="@string/favorite_button"
             android:onClick="@{ () -> viewModel.saveStation(station)}"
-            android:padding="11dp"
+            android:padding="6dp"
             android:visibility="@{isFavorite ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/playButton"
@@ -97,14 +118,27 @@
             tools:ignore="DuplicateClickableBoundsCheck" />
 
         <ImageView
+            android:id="@+id/startRecordingButton"
+            android:layout_width="36dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="@{ () -> viewModel.startRecording(station)}"
+            android:padding="6dp"
+            android:visibility="@{isRecording ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/favoriteButton"
+            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+            app:layout_constraintTop_toTopOf="@+id/favoriteButton"
+            app:srcCompat="@drawable/baseline_mic_off_24" />
+
+        <ImageView
             android:id="@+id/unFavoriteButton"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="4dp"
+            android:layout_width="36dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
             android:contentDescription="@string/remove_favorite_channel"
             android:onClick="@{ () -> viewModel.deleteStation(station)}"
-            android:padding="11dp"
+            android:padding="6dp"
             android:scaleType="fitCenter"
             android:visibility="@{isFavorite ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -115,12 +149,12 @@
         <ImageView
             android:id="@+id/playButton"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="36dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
             android:contentDescription="@string/play_button"
             android:onClick="@{ () -> viewModel.startPlayer(station)}"
-            android:padding="8dp"
+            android:padding="4dp"
             android:scaleType="fitCenter"
             android:visibility="@{isPlaying ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -132,12 +166,12 @@
         <ImageView
             android:id="@+id/stopButton"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="36dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
             android:contentDescription="@string/play_button"
             android:onClick="@{ () -> viewModel.stopPlayer()}"
-            android:padding="8dp"
+            android:padding="4dp"
             android:scaleType="fitCenter"
             android:visibility="@{isPlaying ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"

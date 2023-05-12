@@ -12,8 +12,8 @@ import com.example.myapplication.adapter.FavoritesListClickListener
 import com.example.myapplication.adapter.FavoritesListLongClickListener
 import com.example.myapplication.databinding.FragmentFavoritesBinding
 import com.example.myapplication.utils.RecyclerViewDecorator
-import com.example.myapplication.viewmodel.FavoritesListViewModel
-import com.example.myapplication.viewmodel.FavoritesListViewModelFactory
+import com.example.myapplication.viewmodel.FavoritesViewModel
+import com.example.myapplication.viewmodel.FavoritesViewModelFactory
 import com.example.myapplication.viewmodel.SharedMiniPlayerViewModel
 
 /**
@@ -21,8 +21,8 @@ import com.example.myapplication.viewmodel.SharedMiniPlayerViewModel
  */
 class FavoritesFragment : Fragment() {
 
-    private lateinit var viewModel: FavoritesListViewModel
-    private lateinit var viewModelFactory: FavoritesListViewModelFactory
+    private lateinit var viewModel: FavoritesViewModel
+    private lateinit var viewModelFactory: FavoritesViewModelFactory
     private val sharedMiniPlayerViewModel: SharedMiniPlayerViewModel by activityViewModels()
 
     private var _binding: FragmentFavoritesBinding? = null
@@ -39,8 +39,8 @@ class FavoritesFragment : Fragment() {
         val stationRepository = appContainer.stationRepository
         val application = requireNotNull(this.activity).application
 
-        viewModelFactory = FavoritesListViewModelFactory(stationRepository, application)
-        viewModel = ViewModelProvider(this, viewModelFactory)[FavoritesListViewModel::class.java]
+        viewModelFactory = FavoritesViewModelFactory(stationRepository, application)
+        viewModel = ViewModelProvider(this, viewModelFactory)[FavoritesViewModel::class.java]
 
         val bottomSpaceHeight = resources.getDimensionPixelSize(R.dimen.list_end_padding)
         val dividerHeight = resources.getDimensionPixelSize(R.dimen.list_divider_height)

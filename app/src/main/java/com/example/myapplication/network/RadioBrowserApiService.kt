@@ -32,14 +32,14 @@ interface RadioBrowserApiService {
     @GET("stations/topclick")
     suspend fun getTopClickedStations(
         @Query("hidebroken") hideBroken: String = "true",
-        @Query("limit") limit: Int = 10000,
+        @Query("limit") limit: Int = 100000,
         @Query("geo") geo: String = "true"
     ): List<Station>
 
     @GET("stations/topvote")
     suspend fun getTopVotedStations(
         @Query("hidebroken") hideBroken: String = "true",
-        @Query("limit") limit: Int = 10000,
+        @Query("limit") limit: Int = 100000,
         @Query("geo") geo: String = "true"
     ): List<Station>
 
