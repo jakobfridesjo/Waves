@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.FragmentMiniplayerBinding
-import com.example.myapplication.model.Station
 import com.example.myapplication.viewmodel.SharedMiniPlayerViewModel
 import com.example.myapplication.viewmodel.SharedMiniPlayerViewModelFactory
 
@@ -35,11 +34,14 @@ class MiniPlayerFragment : Fragment() {
         viewModelFactory = SharedMiniPlayerViewModelFactory(stationRepository, application)
         viewModel = ViewModelProvider(requireActivity(), viewModelFactory)[SharedMiniPlayerViewModel::class.java]
 
+        // Add view model to layout
+        binding.viewModel = viewModel
+
         viewModel.station.observe(viewLifecycleOwner) {
             binding.station = it[0]
         }
 
-        viewModel.isFavorite.observe(viewLifecycleOwner) {
+        viewModel.isPlaying.observe(viewLifecycleOwner) {
             binding.isPlaying = it
         }
 

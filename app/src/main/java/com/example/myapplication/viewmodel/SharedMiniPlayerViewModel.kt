@@ -35,18 +35,12 @@ class SharedMiniPlayerViewModel(
         viewModelScope.launch {
             stationRepository.insertStations(listOf(station))
         }
-        viewModelScope.launch {
-            stationRepository.setFavorite(station.stationUUID, true)
-        }
         _isFavorite.value = true
     }
 
     fun deleteStation(station: Station) {
         viewModelScope.launch {
             stationRepository.deleteStations(listOf(station))
-        }
-        viewModelScope.launch {
-            stationRepository.setFavorite(station.stationUUID, false)
         }
         _isFavorite.value = false
     }
@@ -57,9 +51,6 @@ class SharedMiniPlayerViewModel(
     }
 
     fun startPlayer(station: Station) {
-        viewModelScope.launch {
-            _isFavorite.value = stationRepository.isFavorite(station.stationUUID)
-        }
         _station.value = listOf(station)
         _isPlaying.value = true
         startMediaService(application, station.urlResolved)

@@ -21,10 +21,15 @@ import java.util.Locale
 
 @BindingAdapter("stationImageUrl")
 fun bindStationImage(imgView: ImageView, imgUrl: String?) {
-    CoroutineScope(Dispatchers.Main).launch {
-        if (imgUrl != null) {
-            val regex = ".*\\.svg$".toRegex()
-            if (regex.matches(imgUrl)) {
+    if (imgUrl.isNullOrEmpty()) {
+        Glide.with(imgView)
+            .load(R.drawable.ic_no_image_128)
+            .transform(FitCenter(), RoundedCorners(10))
+            .into(imgView)
+    } else {
+        val regex = ".*\\.svg$".toRegex()
+        if (regex.matches(imgUrl)) {
+            CoroutineScope(Dispatchers.Main).launch {
                 try {
                     val client = OkHttpClient()
                     val request = Request.Builder()
@@ -45,16 +50,12 @@ fun bindStationImage(imgView: ImageView, imgUrl: String?) {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-            } else {
-                val imageUrl = when {
-                    imgUrl.isEmpty() -> R.drawable.ic_no_image_128
-                    else -> imgUrl
-                }
-                Glide.with(imgView)
-                    .load(imageUrl)
-                    .transform(FitCenter(), RoundedCorners(10))
-                    .into(imgView)
             }
+        } else {
+            Glide.with(imgView)
+                .load(imgUrl)
+                .transform(FitCenter(), RoundedCorners(10))
+                .into(imgView)
         }
     }
 }

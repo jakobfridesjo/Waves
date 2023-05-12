@@ -51,7 +51,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars"
+            tools:srcCompat="@drawable/ic_no_image_128"
             app:stationImageUrl="@{station.favicon}" />
 
 
@@ -60,9 +60,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription="@string/channel_name"
             android:ellipsize="end"
             android:gravity="start|center_horizontal|center_vertical"
@@ -74,24 +74,27 @@
             android:scrollHorizontally="true"
             android:text="@{station.name}"
             android:textAlignment="gravity"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/stationImage"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
             app:layout_constraintStart_toEndOf="@+id/stationImage"
-            app:layout_constraintTop_toTopOf="@+id/stationImage" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/favoriteButton"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginEnd="4dp"
             android:contentDescription="@string/favorite_button"
             android:onClick="@{ () -> viewModel.saveStation(station)}"
-            android:visibility="@{isFavorite ? View.GONE : View.VISIBLE}"
+            android:padding="11dp"
+            android:visibility="@{isFavorite ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/unFavoriteButton"
+            app:layout_constraintEnd_toStartOf="@+id/playButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_favorite_border_24" />
+            app:srcCompat="@drawable/ic_favorite_border_24"
+            tools:ignore="DuplicateClickableBoundsCheck" />
 
         <ImageView
             android:id="@+id/unFavoriteButton"
@@ -101,7 +104,9 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/remove_favorite_channel"
             android:onClick="@{ () -> viewModel.deleteStation(station)}"
-            android:visibility="@{isFavorite ? View.VISIBLE : View.GONE}"
+            android:padding="11dp"
+            android:scaleType="fitCenter"
+            android:visibility="@{isFavorite ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/playButton"
             app:layout_constraintTop_toTopOf="parent"
@@ -114,13 +119,15 @@
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/play_button"
-            android:onClick="@{ () -> viewModel.stopPlayer()}"
+            android:onClick="@{ () -> viewModel.startPlayer(station)}"
+            android:padding="8dp"
             android:scaleType="fitCenter"
-            android:visibility="@{isPlaying ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{isPlaying ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_play_light" />
+            app:srcCompat="@drawable/baseline_play_arrow_24"
+            tools:ignore="DuplicateClickableBoundsCheck" />
 
         <ImageView
             android:id="@+id/stopButton"
@@ -129,13 +136,14 @@
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/play_button"
-            android:onClick="@{ () -> viewModel.startPlayer(station)}"
+            android:onClick="@{ () -> viewModel.stopPlayer()}"
+            android:padding="8dp"
             android:scaleType="fitCenter"
-            android:visibility="@{isPlaying ? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{isPlaying ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_stop_light" />
+            app:srcCompat="@drawable/baseline_pause_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

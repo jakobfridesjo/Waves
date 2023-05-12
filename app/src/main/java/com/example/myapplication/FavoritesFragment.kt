@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.adapter.FavoritesListAdapter
 import com.example.myapplication.adapter.FavoritesListClickListener
@@ -13,6 +14,7 @@ import com.example.myapplication.databinding.FragmentFavoritesBinding
 import com.example.myapplication.utils.RecyclerViewDecorator
 import com.example.myapplication.viewmodel.FavoritesListViewModel
 import com.example.myapplication.viewmodel.FavoritesListViewModelFactory
+import com.example.myapplication.viewmodel.SharedMiniPlayerViewModel
 
 /**
  * A fragment for displaying favorite stations
@@ -21,6 +23,7 @@ class FavoritesFragment : Fragment() {
 
     private lateinit var viewModel: FavoritesListViewModel
     private lateinit var viewModelFactory: FavoritesListViewModelFactory
+    private val sharedMiniPlayerViewModel: SharedMiniPlayerViewModel by activityViewModels()
 
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
@@ -46,8 +49,8 @@ class FavoritesFragment : Fragment() {
         val favoritesListAdapter = context?.let {
             FavoritesListAdapter(
                 it,
-                FavoritesListClickListener { station -> viewModel.onFavoritesListItemClicked(station) },
-                FavoritesListLongClickListener { station -> viewModel.onFavoritesListItemClicked(station) }
+                FavoritesListClickListener { station -> sharedMiniPlayerViewModel.startPlayer(station) },
+                FavoritesListLongClickListener { /*TODO A DIALOG OR SOMETHING*/ }
             )
         }
 
@@ -59,5 +62,10 @@ class FavoritesFragment : Fragment() {
             }
         }
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getSavedFavorites()
     }
 }
