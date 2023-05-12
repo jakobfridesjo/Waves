@@ -5,6 +5,7 @@
     <string name="title_map">Map</string>
     <string name="title_search">Search</string>
     <string name="title_favorites">Favorites</string>
+    <string name="title_recordings">Recordings</string>
     <string name="play_button">Play</string>
     <string name="favorite_button">Favorite</string>
     <string name="channel_image">Image</string>

@@ -5,6 +5,7 @@
     <string name="title_map">地图</string>
     <string name="title_search">搜索</string>
     <string name="title_favorites">喜欢</string>
+    <string name="title_recordings">Recordings</string>
     <string name="play_button">播放</string>
     <string name="favorite_button">喜欢</string>
     <string name="channel_image">广播海报</string>

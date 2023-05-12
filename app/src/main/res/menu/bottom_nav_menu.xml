@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_favorite_bar_24"
         android:title="@string/title_favorites" />
 
+    <item
+        android:id="@+id/navigation_recordings"
+        android:icon="@drawable/ic_record_24"
+        android:title="@string/title_recordings" />
+
 </menu>
