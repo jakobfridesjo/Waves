@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:onClickListener="@{ (view) -> clickListener.onClick(station) }"
-        android:onLongClickListener="@{ (view) -> true }">
+        android:onLongClickListener="@{ (view) -> longClickListener.onLongClick(station) }">
 
         <ImageView
             android:id="@+id/station_image"
@@ -34,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:contentDescription="@string/station_image"
+            android:contentDescription="@string/description_station_image"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -17,7 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.caverock.androidsvg.BuildConfig
 import com.example.myapplication.databinding.FragmentMapBinding
-import com.example.myapplication.utils.Constants.ESRI_BASE_URL
+import com.example.myapplication.util.Constants.ESRI_API_BASE_URL
 import com.example.myapplication.viewmodel.MapViewModel
 import com.example.myapplication.viewmodel.MapViewModelFactory
 import com.example.myapplication.viewmodel.SharedMiniPlayerViewModel
@@ -73,9 +73,12 @@ class MapFragment : Fragment() {
                     // Wait for map to be ready
                     if (binding.mapView.overlays.size > 0) {
                         val center = mapView.mapCenter
-                        val closest: Marker? = findClosestMarker(binding.mapView.overlays.filterIsInstance<Marker>(),
+                        val closest: Marker?
+                            = findClosestMarker(binding.mapView.overlays.filterIsInstance<Marker>(),
                             center as GeoPoint
                         )
+                        // Should only select a station that is within the selector circle,
+                        // thus calculate if it is before selecting
                         val radiusPx = binding.selector.width / 2L
                         val projection = binding.mapView.projection
                         val centerPixels = projection.toPixels(center, null)
@@ -85,6 +88,9 @@ class MapFragment : Fragment() {
                                     + (closestPixels.y - centerPixels.y).toDouble().pow(2.0)
                         )
                         if (distanceToCenter <= radiusPx) {
+                            if (binding.mapView.zoomLevelDouble <= 10) {
+                                binding.mapView.controller.zoomTo(10, 1500)
+                            }
                             binding.mapView.controller.animateTo(closest.position)
                             viewModel.getStation(closest.title)
                         }
@@ -98,6 +104,14 @@ class MapFragment : Fragment() {
         viewModel.station.observe(viewLifecycleOwner) { station ->
             sharedMiniPlayerViewModel.startPlayer(station)
         }
+
+        // Handle advice
+        viewModel.advice.observe(viewLifecycleOwner) { advice ->
+            binding.adviceView.text = advice
+        }
+
+        // Get an advice every time the fragment view is recreated
+        viewModel.getAdvice()
 
         return binding.root
     }
@@ -168,7 +182,7 @@ class MapFragment : Fragment() {
             15,
             256,
             "",
-            arrayOf(ESRI_BASE_URL),
+            arrayOf(ESRI_API_BASE_URL),
             "Esri"
         ) {
             override fun getTileURLString(pMapTileIndex: Long): String {

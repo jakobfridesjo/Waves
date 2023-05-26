@@ -1,5 +1,6 @@
-package com.example.myapplication.utils
+package com.example.myapplication.util
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.PictureDrawable
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,6 +20,10 @@ import java.io.IOException
 import java.lang.Exception
 import java.util.Locale
 
+/**
+ * Fetch station images, handles the normal raster formats such as jpg and png as well as svg
+ * vector formats that aren't too complicated, or else it just loads a place holder image
+ */
 @BindingAdapter("stationImageUrl")
 fun bindStationImage(imgView: ImageView, imgUrl: String?) {
     if (imgUrl.isNullOrEmpty()) {
@@ -60,13 +65,49 @@ fun bindStationImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
+/**
+ * Bind image to the settings list image view
+ */
+@SuppressLint("DiscouragedApi")
+@BindingAdapter("settingImage")
+fun bindSettingImage(imgView: ImageView, resourceName: String?) {
+    val resourceId = when {
+        !resourceName.isNullOrEmpty() -> {
+            val resources = imgView.context.resources
+            resources.getIdentifier(resourceName, "drawable", imgView.context.packageName)
+        }
+        else -> R.drawable.ic_no_image_128
+    }
+    Glide.with(imgView)
+        .load(resourceId)
+        .transform(FitCenter())
+        .into(imgView)
+}
+
+/**
+ * Convert country code to country name to keep the text view locale aware
+ */
 @BindingAdapter("countryCode")
 fun bindCountryCode(textView: TextView, countryCode: String) {
     val locale = Locale.getDefault()
     val country = try {
         Locale("", countryCode).getDisplayCountry(locale)
     } catch (e: Exception) {
+        // World Wide placeholder
         "WW"
     }
     textView.text = country
+}
+
+/**
+ * Display length of recording in a human readable time format of hh:mm:ss
+ */
+@BindingAdapter("recordingLength")
+fun bindRecordingLength(textView: TextView, length: Long) {
+    val hours = length / 3600
+    val minutes = (length % 3600) / 60
+    val seconds = length % 60
+
+    val formattedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+    textView.text = formattedTime
 }

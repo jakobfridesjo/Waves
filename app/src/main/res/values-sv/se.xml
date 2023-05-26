@@ -1,24 +1,33 @@
 <resources>
 
     <string name="app_name">Waves</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Välkommen</string>
     <string name="title_map">Karta</string>
     <string name="title_search">Sök</string>
     <string name="title_favorites">Favoriter</string>
     <string name="title_recordings">Inspelningar</string>
-    <string name="play_button">Spela</string>
-    <string name="favorite_button">Favoriter</string>
+    <string name="title_settings">Inställningar</string>
+    <string name="title_station_details">Om station</string>
+    <string name="title_vote">Rösta på station</string>
+    <string name="button_vote">Rösta</string>
+    <string name="button_back">Tillbaka</string>
+    <string name="button_cancel">Avbryt</string>
+    <string name="button_play">Spela</string>
+    <string name="button_favorite">Favoriter</string>
     <string name="channel_image">Stationens bild</string>
-    <string name="channel_name">Stationens namn</string>
-    <string name="favorite_list_description">Lista med gillade stationer</string>
-    <string name="remove_favorite_channel">Do you want to remove the station?</string>
-    <string name="search_hint">Sök efter en station</string>
-    <string name="category_button">Kategori</string>
-    <string name="remove">Avgilla</string>
+    <string name="description_station_name">Stationens namn</string>
+    <string name="description_favorites_list">Lista med gillade stationer</string>
+    <string name="description_remove_favorite">Do you want to remove the station?</string>
+    <string name="hint_search">Sök efter en station</string>
+    <string name="button_category">Kategori</string>
+    <string name="button_remove">Avgilla</string>
     <string name="cancel">Avbryt</string>
-    <string name="station_image">Stationens bild</string>
-    <string name="selector">Välj station</string>
-    <string name="channel_description">TEST</string>
-    <string name="search_for_channels">Sök efter kanaler!</string>
+    <string name="description_station_image">Stationens bild</string>
+    <string name="description_selector">Välj station</string>
+    <string name="description_search_station">Sök efter kanaler!</string>
+    <string name="hint_comment">Kommentar:</string>
+    <string name="hint_name">Namn:</string>
+    <string name="hint_content">Innehåll:</string>
+    <string name="hint_score">Poäng:</string>
 
 </resources>

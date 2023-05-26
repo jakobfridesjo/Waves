@@ -15,18 +15,64 @@
         android:id="@+id/navigation_search"
         android:name="com.example.myapplication.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_navigation_search_to_navigation_station_details"
+            app:destination="@id/navigation_station_details" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favorites"
         android:name="com.example.myapplication.FavoritesFragment"
         android:label="@string/title_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_navigation_favorites_to_navigation_station_details"
+            app:destination="@id/navigation_station_details" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_recordings"
         android:name="com.example.myapplication.RecordingsFragment"
         android:label="@string/title_recordings"
         tools:layout="@layout/fragment_recordings" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.myapplication.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_station_details"
+        android:name="com.example.myapplication.StationDetailsFragment"
+        android:label="@string/title_station_details"
+        tools:layout="@layout/fragment_station_detail">
+        <argument
+            android:name="station"
+            app:argType="com.example.myapplication.model.Station" />
+        <action
+            android:id="@+id/action_navigation_station_details_to_navigation_vote"
+            app:destination="@id/navigation_vote" />
+        <action
+            android:id="@+id/action_navigation_station_details_to_navigation_favorites"
+            app:destination="@id/navigation_favorites" />
+        <action
+            android:id="@+id/action_navigation_station_details_to_navigation_search"
+            app:destination="@id/navigation_search" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_vote"
+        android:name="com.example.myapplication.VoteFragment"
+        android:label="@string/title_vote"
+        tools:layout="@layout/fragment_vote">
+        <argument
+            android:name="station"
+            app:argType="com.example.myapplication.model.Station" />
+        <action
+            android:id="@+id/action_navigation_vote_to_navigation_station_details"
+            app:destination="@id/navigation_station_details" />
+    </fragment>
 
 </navigation>

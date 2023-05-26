@@ -16,6 +16,9 @@ abstract class StationDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: StationDatabase? = null
 
+        /**
+         * Get the database instance
+         */
         fun getInstance(context: Context): StationDatabase {
             synchronized(this) {
                 var instance = INSTANCE

@@ -1,4 +1,4 @@
-package com.example.myapplication.services
+package com.example.myapplication.service
 
 import android.app.Service
 import android.content.Context
@@ -156,5 +156,4 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener, MediaPlaye
             }
         }
     }
-
 }

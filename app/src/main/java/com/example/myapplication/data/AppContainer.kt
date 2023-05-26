@@ -3,9 +3,10 @@ package com.example.myapplication.data
 import android.content.Context
 import com.example.myapplication.database.StationDatabase
 import com.example.myapplication.database.StationDatabaseDao
+import com.example.myapplication.network.AdviceSlipApiService
 import com.example.myapplication.network.RadioBrowserApiService
 import com.example.myapplication.network.getLoggerIntercepter
-import com.example.myapplication.utils.Constants
+import com.example.myapplication.util.Constants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -57,14 +58,37 @@ class DefaultAppContainer(context: Context) : AppContainer {
                 .build()
         )
         .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .baseUrl(getRadioApiBaseUrl())
+        .baseUrl(Constants.RADIO_API_BASE_URL_DEFAULT)
         .build()
 
     /**
-     * Setup retrofit service
+     * Use the Retrofit builder to build a retrofit object using a Moshi converter with our Moshi
+     * object.
      */
-    private val retrofitService: RadioBrowserApiService by lazy {
+    private val adviceSlipRetrofit = Retrofit.Builder()
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor(getLoggerIntercepter())
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .build()
+        )
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .baseUrl(Constants.ADVICE_SLIP_API_BASE_URL)
+        .build()
+
+    /**
+     * Setup RadioBrowser retrofit service
+     */
+    private val radioBrowserRetrofitService: RadioBrowserApiService by lazy {
         stationListRetrofit.create(RadioBrowserApiService::class.java)
+    }
+
+    /**
+     * Setup AdviceSlip retrofit service
+     */
+    private val adviceSlipRetrofitService: AdviceSlipApiService by lazy {
+        adviceSlipRetrofit.create(AdviceSlipApiService::class.java)
     }
 
     override val stationDatabaseDao: StationDatabaseDao
@@ -73,7 +97,8 @@ class DefaultAppContainer(context: Context) : AppContainer {
     override val stationRepository: StationRepository by lazy {
         DefaultStationRepository (
             stationDatabaseDao,
-            retrofitService
+            radioBrowserRetrofitService,
+            adviceSlipRetrofitService
         )
     }
 

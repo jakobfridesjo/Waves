@@ -2,6 +2,9 @@ package com.example.myapplication.model
 
 import com.squareup.moshi.Json
 
+/**
+ * POST body for clicks
+ */
 data class Click (
 
     var id: String = "",

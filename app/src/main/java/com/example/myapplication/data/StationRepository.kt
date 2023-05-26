@@ -5,6 +5,7 @@ import com.example.myapplication.model.Click
 import com.example.myapplication.model.Station
 import com.example.myapplication.model.StationAttributes
 import com.example.myapplication.model.Vote
+import com.example.myapplication.network.AdviceSlipApiService
 import com.example.myapplication.network.RadioBrowserApiService
 import timber.log.Timber
 
@@ -21,20 +22,26 @@ interface StationRepository {
     suspend fun postVote(vote: Vote)
     suspend fun postClick(click: Click)
 
+    suspend fun getAdvice(): String
+
 }
 
-class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDao, private val radioBrowserApiService: RadioBrowserApiService) : StationRepository {
+class DefaultStationRepository(
+    private val stationDatabaseDao: StationDatabaseDao,
+    private val radioBrowserApiService: RadioBrowserApiService,
+    private val adviceSlipApiService: AdviceSlipApiService
+    ) : StationRepository {
 
 
     /**
-     * Gets the station by UUID
+     * Gets the station by UUID from the Radio Browser API
      */
     override suspend fun getStation(stationUUID: String): List<Station> {
         return radioBrowserApiService.getStationByUUID(stationUUID)
     }
 
     /**
-     * Get the top voted stations
+     * Get the top voted stations from the Radio Browser API
      */
     override suspend fun getTopVoted(): List<Station> {
         try {
@@ -47,7 +54,7 @@ class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDa
     }
 
     /**
-     * Get the top clicked stations
+     * Get the top clicked stations from the Radio Browser API
      */
     override suspend fun getTopClicked(): List<Station> {
         try {
@@ -59,14 +66,14 @@ class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDa
     }
 
     /**
-     * Gets favorite stations
+     * Gets favorite stations from local database
      */
     override suspend fun getFavorites(): List<Station> {
         return stationDatabaseDao.getFavoriteStations()
     }
 
     /**
-     * Search a station by it's name
+     * Search a RadioBrowser API station by it's name
      */
     override suspend fun searchStationByName(name: String): List<Station> {
         try {
@@ -78,7 +85,7 @@ class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDa
     }
 
     /**
-     * Remove a station
+     * Remove a station from the local database
      */
     override suspend fun deleteStations(stations: List<Station>) {
         stationDatabaseDao.deleteStations(stations)
@@ -104,7 +111,7 @@ class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDa
     }
 
     /**
-     * Checks if a station is set as favorite
+     * Checks if a RadioBrowser API station is set as favorite
      */
     override suspend fun isFavorite(stationUUID: String): Boolean {
         return stationDatabaseDao.isFavorite(stationUUID)
@@ -118,10 +125,17 @@ class DefaultStationRepository(private val stationDatabaseDao: StationDatabaseDa
     }
 
     /**
-     * Posts a click on a station
+     * Posts a click on a RadioBrowser API station
      */
     override suspend fun postClick(click: Click) {
         radioBrowserApiService.postClick(click.id, click)
+    }
+
+    /**
+     * Gets a random advice from the AdviceSlip API
+     */
+    override suspend fun getAdvice(): String {
+        return adviceSlipApiService.getAdviceSlip().slip.advice
     }
 
 }

@@ -2,6 +2,9 @@ package com.example.myapplication.model
 
 import com.squareup.moshi.Json
 
+/**
+ * POST body data model for a vote
+ */
 data class Vote (
 
     @Json(name = "id")

@@ -6,6 +6,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
+/**
+ * Attributes data model for the database
+ */
 @Parcelize
 @Entity(tableName = "station_attributes")
 data class StationAttributes (

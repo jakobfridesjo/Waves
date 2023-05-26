@@ -42,7 +42,6 @@ class FavoritesListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
         val background = holder.itemView.background
         if (background is RippleDrawable) {
             background.setColor(ColorStateList.valueOf(context.getColor(R.color.blue_200)))
@@ -67,6 +66,6 @@ class FavoritesListClickListener(val clickListener: (station: Station) -> Unit) 
     fun onClick(station: Station) = clickListener(station)
 }
 
-class FavoritesListLongClickListener(val clickListener: (station: Station) -> Unit) {
-    fun onClick(station: Station) = clickListener(station)
+class FavoritesListLongClickListener(val longClickListener: (station: Station) -> Boolean) {
+    fun onLongClick(station: Station): Boolean = longClickListener(station)
 }

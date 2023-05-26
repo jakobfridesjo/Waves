@@ -12,13 +12,7 @@ import com.example.myapplication.network.DataFetchStatus
 
 class MapViewModel(
     private val stationRepository: StationRepository,
-    private val application: Application) : AndroidViewModel(application) {
-
-    private val _dataFetchStatus = MutableLiveData<DataFetchStatus>()
-    val dataFetchStatus: LiveData<DataFetchStatus>
-        get() {
-            return _dataFetchStatus
-        }
+    application: Application) : AndroidViewModel(application) {
 
     private val _stationList = MutableLiveData<List<Station>>()
     val stationList: LiveData<List<Station>>
@@ -32,9 +26,14 @@ class MapViewModel(
             return _station
         }
 
+    private val _advice = MutableLiveData<String>()
+    val advice: LiveData<String>
+        get() {
+            return _advice
+        }
+
     init {
         getTopStations()
-        _dataFetchStatus.value = DataFetchStatus.LOADING
     }
 
     /**
@@ -44,9 +43,7 @@ class MapViewModel(
         viewModelScope.launch {
             try {
                 _stationList.value = stationRepository.getTopVoted()
-                _dataFetchStatus.value = DataFetchStatus.DONE
             } catch (e: Exception) {
-                _dataFetchStatus.value = DataFetchStatus.ERROR
                 _stationList.value = arrayListOf()
             }
         }
@@ -59,7 +56,19 @@ class MapViewModel(
         viewModelScope.launch {
             try {
                 _station.value = stationRepository.getStation(stationUUID)[0]
-                println(station)
+            } catch (e: java.lang.Exception) {
+                //TODO Do something here
+            }
+        }
+    }
+
+    /**
+     * Gets a random advice
+     */
+    fun getAdvice() {
+        viewModelScope.launch {
+            try {
+                _advice.value = stationRepository.getAdvice()
             } catch (e: java.lang.Exception) {
                 //TODO Do something here
             }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
     private val stationRepository: StationRepository,
-    private val application: Application) : AndroidViewModel(application) {
+    application: Application) : AndroidViewModel(application) {
 
     private val _favoritesList = MutableLiveData<List<Station>>()
     val favoritesList: LiveData<List<Station>>
@@ -23,6 +23,9 @@ class FavoritesViewModel(
         getSavedFavorites()
     }
 
+    /**
+     * Get all saved favorite stations
+     */
     fun getSavedFavorites() {
         viewModelScope.launch {
             _favoritesList.value = stationRepository.getFavorites()

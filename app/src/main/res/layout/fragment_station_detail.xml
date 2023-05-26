@@ -9,31 +9,22 @@
             name="station"
             type="com.example.myapplication.model.Station" />
 
-        <variable
-            name="clickListener"
-            type="com.example.myapplication.adapter.SearchListClickListener" />
-
-        <variable
-            name="longClickListener"
-            type="com.example.myapplication.adapter.SearchListLongClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/station_details"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:onClickListener="@{ (view) -> clickListener.onClick(station) }"
-        android:onLongClickListener="@{ (view) -> true }">
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
 
         <ImageView
             android:id="@+id/station_image"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:contentDescription="@string/station_image"
+            android:contentDescription="@string/description_station_image"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,28 +32,41 @@
             app:stationImageUrl="@{station.favicon}"
             tools:srcCompat="@tools:sample/avatars" />
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@+id/station_image"
+            tools:layout_editor_absoluteX="0dp" />
+
         <TextView
             android:id="@+id/station_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{station.name}"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/station_image" />
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         <TextView
             android:id="@+id/station_country"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textSize="13sp"
+            android:textSize="14sp"
             app:countryCode="@{station.countryCode}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,16 +76,90 @@
             android:id="@+id/station_tags"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{station.tags}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/station_country" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@+id/station_tags"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/mapView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:contentDescription="@string/mapquest_osm"
+            android:focusable="true"
+            android:text="@string/title_map"
+            app:layout_constraintBottom_toTopOf="@+id/voteButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2">
+
+        </org.osmdroid.views.MapView>
+
+        <ImageView
+            android:id="@+id/mapViewStatusBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#BBD3D3D3"
+            app:layout_constraintBottom_toTopOf="@+id/voteButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <ImageView
+            android:id="@+id/mapViewStatus"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/baseline_location_off_80"
+            app:layout_constraintBottom_toBottomOf="@+id/mapView"
+            app:layout_constraintEnd_toEndOf="@+id/mapView"
+            app:layout_constraintStart_toStartOf="@+id/mapView"
+            app:layout_constraintTop_toTopOf="@+id/mapView" />
+
+        <Button
+            android:id="@+id/voteButton"
+            android:layout_width="120dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/button_vote"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="120dp"
+            android:layout_height="55dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/button_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

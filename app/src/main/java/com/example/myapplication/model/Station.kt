@@ -11,6 +11,9 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import kotlinx.parcelize.Parcelize
 
+/**
+ * Station response model for the Radio Browser API and the local database
+ */
 @Parcelize
 @Entity(tableName = "stations")
 data class Station (

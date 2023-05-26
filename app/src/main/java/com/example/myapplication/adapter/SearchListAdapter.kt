@@ -67,6 +67,6 @@ class SearchListClickListener(val clickListener: (station: Station) -> Unit) {
     fun onClick(station: Station) = clickListener(station)
 }
 
-class SearchListLongClickListener(val clickListener: (station: Station) -> Unit) {
-    fun onClick(station: Station) = clickListener(station)
+class SearchListLongClickListener(val longClickListener: (station: Station) -> Boolean) {
+    fun onLongClick(station: Station): Boolean = longClickListener(station)
 }

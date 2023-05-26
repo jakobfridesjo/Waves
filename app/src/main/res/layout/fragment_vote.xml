@@ -9,74 +9,113 @@
             name="station"
             type="com.example.myapplication.model.Station" />
 
-        <variable
-            name="clickListener"
-            type="com.example.myapplication.adapter.SearchListClickListener" />
-
-        <variable
-            name="longClickListener"
-            type="com.example.myapplication.adapter.SearchListLongClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/station_vote"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:onClickListener="@{ (view) -> clickListener.onClick(station) }"
-        android:onLongClickListener="@{ (view) -> true }">
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
 
-        <TextView
-            android:id="@+id/review_name_input"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:text="name:"
+        <ImageView
+            android:id="@+id/station_image"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/description_station_image"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:stationImageUrl="@{station.favicon}"
+            tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
+        <EditText
+            android:id="@+id/review_name_input"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:hint="@string/hint_name"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/station_image" />
+
+        <EditText
             android:id="@+id/review_score_input"
             android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:text="score:"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:gravity="start"
+            android:hint="@string/hint_score"
+            android:inputType="number"
+            android:digits="12345"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/review_name_input" />
 
-        <TextView
-            android:id="@+id/review_input"
+        <EditText
+            android:id="@+id/review_comment_input"
             android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:text="content:"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:gravity="start"
+            android:hint="@string/hint_comment"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/review_score_input" />
+
+        <EditText
+            android:id="@+id/review_input"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start"
+            android:hint="@string/hint_content"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/cancel_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_comment_input" />
 
         <Button
             android:id="@+id/post_button"
             android:layout_width="120dp"
             android:layout_height="55dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Post Vote"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/button_vote"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/review_input" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/cancel_button"
             android:layout_width="120dp"
             android:layout_height="55dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginBottom="8dp"
-            android:text="Button"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/button_cancel"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="1dp"
+            android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/review_input" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/station_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
