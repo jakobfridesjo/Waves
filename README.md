@@ -1,4 +1,4 @@
-# RadioApp
+# Waves
 
 This is a radio app that allows users to browse radio stations from around the world using the Radio Browser API. The app also utilizes the ArcGIS World Imagery API to display a map with markers for each radio station.
 
