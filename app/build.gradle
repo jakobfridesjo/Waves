@@ -69,14 +69,13 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
 
     // For database
-    kapt 'androidx.room:room-compiler:2.5.1'
-    implementation 'androidx.room:room-ktx:2.5.1'
-    implementation 'androidx.room:room-runtime:2.5.1'
+    kapt 'androidx.room:room-compiler:2.5.2'
+    implementation 'androidx.room:room-ktx:2.5.2'
+    implementation 'androidx.room:room-runtime:2.5.2'
 
     // For the navbar
-    def nav_version = "2.5.3"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.6.0"
+    implementation "androidx.navigation:navigation-ui-ktx:2.6.0"
 
     // OpenStreetMap
     implementation 'org.osmdroid:osmdroid-android:6.1.16'

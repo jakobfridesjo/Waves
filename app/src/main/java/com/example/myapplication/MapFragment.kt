@@ -106,12 +106,12 @@ class MapFragment : Fragment() {
         }
 
         // Handle advice
-        viewModel.advice.observe(viewLifecycleOwner) { advice ->
+        /*viewModel.advice.observe(viewLifecycleOwner) { advice ->
             binding.adviceView.text = advice
-        }
+        }*/
 
         // Get an advice every time the fragment view is recreated
-        viewModel.getAdvice()
+        //viewModel.getAdvice()
 
         return binding.root
     }
