@@ -10,9 +10,7 @@ The app uses the following APIs:
 
 [ArcGIS World Imagery API](https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer)
 
-[Advice Slip API](https://api.adviceslip.com/)
-
-## Library dependencies
+## Libraries used
 
 The app uses the following libraries:
 
@@ -25,6 +23,8 @@ The app uses the following libraries:
 [Retrofit](https://github.com/square/retrofit)
 
 [OkHttp](https://github.com/square/okhttp)
+
+## Screenshots
 
 <p float="left">
   <img src="/screenshot1.png" width="300" />
