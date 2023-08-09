@@ -25,3 +25,8 @@ The app uses the following libraries:
 [Retrofit](https://github.com/square/retrofit)
 
 [OkHttp](https://github.com/square/okhttp)
+
+<p float="left">
+  <img src="/screenshot1.png" width="300" />
+  <img src="/screenshot2.png" width="300" /> 
+</p>
