@@ -131,7 +131,7 @@ class MapFragment : Fragment() {
     private fun addMarkers() {
         // Add markers
         viewModel.stationList.observe(viewLifecycleOwner) { stationList ->
-            val bitmap = generateCircle(5, Color.GREEN)
+            val bitmap = generateCircle(8, Color.GREEN)
             stationList?.let {
                 val markers = stationList
                     .filter { it.geo_lat != null && it.geo_long != null }

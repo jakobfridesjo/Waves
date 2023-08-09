@@ -34,150 +34,159 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_miniplayer"
-        android:layout_width="370dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/rectangle"
-        android:visibility="@{isEnabled ? View.VISIBLE : View.INVISIBLE}"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        style="?attr/materialCardViewElevatedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:checkable="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="@{isEnabled ? View.VISIBLE : View.INVISIBLE}">
 
-        <ImageView
-            android:id="@+id/stopRecordingButton"
-            android:layout_width="36dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="10dp"
-            android:onClick="@{ () -> viewModel.stopRecording()}"
-            android:padding="6dp"
-            android:visibility="@{isRecording ? View.VISIBLE : View.INVISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/favoriteButton"
-            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
-            app:layout_constraintTop_toTopOf="@+id/favoriteButton"
-            app:srcCompat="@drawable/baseline_radio_button_checked_24" />
-
-        <ImageView
-            android:id="@+id/stationImage"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:contentDescription="@string/channel_image"
-            android:padding="4dp"
-            android:scaleType="centerInside"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragment_miniplayer"
+            android:layout_width="370dp"
+            android:layout_height="70dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_no_image_128"
-            app:stationImageUrl="@{station.favicon}" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/stopRecordingButton"
+                android:layout_width="36dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:onClick="@{ () -> viewModel.stopRecording()}"
+                android:padding="6dp"
+                android:visibility="@{isRecording ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/favoriteButton"
+                app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+                app:layout_constraintTop_toTopOf="@+id/favoriteButton"
+                app:srcCompat="@drawable/baseline_radio_button_checked_24" />
+
+            <ImageView
+                android:id="@+id/stationImage"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:layout_marginStart="2dp"
+                android:contentDescription="@string/channel_image"
+                android:padding="4dp"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:stationImageUrl="@{station.favicon}"
+                tools:srcCompat="@drawable/ic_no_image_128" />
 
 
-        <TextView
-            android:id="@+id/stationName"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"
-            android:contentDescription="@string/description_station_name"
-            android:ellipsize="end"
-            android:gravity="start|center_horizontal|center_vertical"
-            android:maxLines="2"
-            android:paddingStart="6dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="6dp"
-            android:paddingBottom="6dp"
-            android:scrollHorizontally="true"
-            android:text="@{station.name}"
-            android:textAlignment="gravity"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/startRecordingButton"
-            app:layout_constraintStart_toEndOf="@+id/stationImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/stationName"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/description_station_name"
+                android:ellipsize="end"
+                android:gravity="start|center_horizontal|center_vertical"
+                android:maxLines="2"
+                android:paddingStart="6dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="6dp"
+                android:paddingBottom="6dp"
+                android:scrollHorizontally="true"
+                android:text="@{station.name}"
+                android:textAlignment="gravity"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/startRecordingButton"
+                app:layout_constraintStart_toEndOf="@+id/stationImage"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/favoriteButton"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="36dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/button_favorite"
-            android:onClick="@{ () -> viewModel.saveStation(station)}"
-            android:padding="6dp"
-            android:visibility="@{isFavorite ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/playButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_favorite_border_24"
-            tools:ignore="DuplicateClickableBoundsCheck" />
+            <ImageView
+                android:id="@+id/favoriteButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/button_favorite"
+                android:onClick="@{ () -> viewModel.saveStation(station)}"
+                android:padding="6dp"
+                android:visibility="@{isFavorite ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/playButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_favorite_border_24"
+                tools:ignore="DuplicateClickableBoundsCheck" />
 
-        <ImageView
-            android:id="@+id/startRecordingButton"
-            android:layout_width="36dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="10dp"
-            android:onClick="@{ () -> viewModel.startRecording()}"
-            android:padding="6dp"
-            android:visibility="@{isRecording ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/favoriteButton"
-            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
-            app:layout_constraintTop_toTopOf="@+id/favoriteButton"
-            app:srcCompat="@drawable/baseline_radio_button_unchecked_24" />
+            <ImageView
+                android:id="@+id/startRecordingButton"
+                android:layout_width="36dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:onClick="@{ () -> viewModel.startRecording()}"
+                android:padding="6dp"
+                android:visibility="@{isRecording ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/favoriteButton"
+                app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+                app:layout_constraintTop_toTopOf="@+id/favoriteButton"
+                app:srcCompat="@drawable/baseline_radio_button_unchecked_24" />
 
-        <ImageView
-            android:id="@+id/unFavoriteButton"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="36dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/description_remove_favorite"
-            android:onClick="@{ () -> viewModel.deleteStation(station)}"
-            android:padding="6dp"
-            android:scaleType="fitCenter"
-            android:visibility="@{isFavorite ? View.VISIBLE : View.INVISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/playButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_favorite_24" />
+            <ImageView
+                android:id="@+id/unFavoriteButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/description_remove_favorite"
+                android:onClick="@{ () -> viewModel.deleteStation(station)}"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:visibility="@{isFavorite ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/playButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_favorite_24" />
 
-        <ImageView
-            android:id="@+id/playButton"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="36dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="12dp"
-            android:contentDescription="@string/button_play"
-            android:onClick="@{ () -> viewModel.startPlayer(station)}"
-            android:padding="4dp"
-            android:scaleType="fitCenter"
-            android:visibility="@{isPlaying ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_play_arrow_24"
-            tools:ignore="DuplicateClickableBoundsCheck" />
+            <ImageView
+                android:id="@+id/playButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@string/button_play"
+                android:onClick="@{ () -> viewModel.startPlayer(station)}"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:visibility="@{isPlaying ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_play_arrow_24"
+                tools:ignore="DuplicateClickableBoundsCheck" />
 
-        <ImageView
-            android:id="@+id/stopButton"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="36dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="12dp"
-            android:contentDescription="@string/button_play"
-            android:onClick="@{ () -> viewModel.stopPlayer()}"
-            android:padding="4dp"
-            android:scaleType="fitCenter"
-            android:visibility="@{isPlaying ? View.VISIBLE : View.INVISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_pause_24" />
+            <ImageView
+                android:id="@+id/stopButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@string/button_play"
+                android:onClick="@{ () -> viewModel.stopPlayer()}"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:visibility="@{isPlaying ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_pause_24" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
 </layout>

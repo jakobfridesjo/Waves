@@ -48,6 +48,7 @@ class SettingsFragment : Fragment() {
             )
         }
 
+        // Setup offset at the end of the list
         val bottomSpaceHeight = resources.getDimensionPixelSize(R.dimen.list_end_padding)
         val dividerHeight = resources.getDimensionPixelSize(R.dimen.list_divider_height)
         binding.settingsList.addItemDecoration(RecyclerViewDecorator(bottomSpaceHeight, dividerHeight))

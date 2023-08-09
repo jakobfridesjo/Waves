@@ -18,6 +18,13 @@
             type="com.example.myapplication.adapter.SearchListLongClickListener" />
     </data>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/station_list_item_cl"
         android:layout_width="match_parent"
@@ -55,7 +62,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{station.name}"
-            android:textSize="14sp"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/station_image"
             app:layout_constraintTop_toTopOf="@+id/station_image" />
@@ -69,7 +76,7 @@
             android:layout_marginBottom="27dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textSize="13sp"
             app:countryCode="@{station.countryCode}"
             app:layout_constraintBottom_toBottomOf="@+id/station_image"
@@ -86,12 +93,12 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{station.tags}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/station_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/station_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </com.google.android.material.card.MaterialCardView>
 </layout>

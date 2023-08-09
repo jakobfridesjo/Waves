@@ -72,7 +72,7 @@ class RecordingsFragment : Fragment() {
             recordingsListAdapter?.submitList(recordingsList)
         }
 
-        // Setup offset at the bottom of the list to let all list items be visible
+        // Setup offset at the end of the list
         val bottomSpaceHeight = resources.getDimensionPixelSize(R.dimen.list_end_padding)
         val dividerHeight = resources.getDimensionPixelSize(R.dimen.list_divider_height)
         binding.recordingsList.addItemDecoration(

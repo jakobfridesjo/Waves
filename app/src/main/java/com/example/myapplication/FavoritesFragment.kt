@@ -46,7 +46,7 @@ class FavoritesFragment : Fragment() {
         viewModelFactory = FavoritesViewModelFactory(stationRepository, application)
         viewModel = ViewModelProvider(this, viewModelFactory)[FavoritesViewModel::class.java]
 
-        // Add offset at the bottom of the list
+        // Setup offset at the end of the list
         val bottomSpaceHeight = resources.getDimensionPixelSize(R.dimen.list_end_padding)
         val dividerHeight = resources.getDimensionPixelSize(R.dimen.list_divider_height)
         binding.favoritesList.addItemDecoration(RecyclerViewDecorator(bottomSpaceHeight, dividerHeight))

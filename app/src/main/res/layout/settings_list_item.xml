@@ -14,6 +14,16 @@
             type="com.example.myapplication.adapter.SettingsListClickListener" />
     </data>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:checkable="false">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_list_item_cl"
         android:layout_width="match_parent"
@@ -39,10 +49,13 @@
             android:layout_marginStart="16dp"
             android:gravity="center_vertical"
             android:text="@{setting.settingName}"
-            android:textSize="16sp"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintBottom_toBottomOf="@+id/settingsImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/settingsImage"
             app:layout_constraintTop_toTopOf="@+id/settingsImage" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
 </layout>

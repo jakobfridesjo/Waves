@@ -7,6 +7,7 @@ import com.example.myapplication.data.AppContainer
 import com.example.myapplication.data.DefaultAppContainer
 import com.example.myapplication.util.Constants
 import timber.log.Timber
+import com.google.android.material.color.DynamicColors;
 
 class Waves : Application() {
 
@@ -20,6 +21,9 @@ class Waves : Application() {
 
         // Set path for recordings
         Constants.RECORDINGS_PATH = this.getExternalFilesDir(Environment.DIRECTORY_MUSIC)?.absolutePath.toString()
+
+        // Apply colors dynamically
+        DynamicColors.applyToActivitiesIfAvailable(this);
 
         // Plant more trees
         Timber.plant(Timber.DebugTree())
