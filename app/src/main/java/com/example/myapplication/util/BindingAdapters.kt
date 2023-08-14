@@ -28,7 +28,7 @@ import java.util.Locale
 fun bindStationImage(imgView: ImageView, imgUrl: String?) {
     if (imgUrl.isNullOrEmpty()) {
         Glide.with(imgView)
-            .load(R.drawable.ic_no_image_128)
+            .load(R.drawable.ic_no_image)
             .transform(FitCenter(), RoundedCorners(10))
             .into(imgView)
     } else {
@@ -76,7 +76,7 @@ fun bindSettingImage(imgView: ImageView, resourceName: String?) {
             val resources = imgView.context.resources
             resources.getIdentifier(resourceName, "drawable", imgView.context.packageName)
         }
-        else -> R.drawable.ic_no_image_128
+        else -> R.drawable.ic_no_image
     }
     Glide.with(imgView)
         .load(resourceId)

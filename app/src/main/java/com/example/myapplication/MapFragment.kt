@@ -89,9 +89,10 @@ class MapFragment : Fragment() {
                         )
                         if (distanceToCenter <= radiusPx) {
                             if (binding.mapView.zoomLevelDouble <= 10) {
-                                binding.mapView.controller.zoomTo(10, 1500)
+                                binding.mapView.controller.animateTo(closest.position, 10.0, 2000)
+                            } else {
+                                binding.mapView.controller.animateTo(closest.position)
                             }
-                            binding.mapView.controller.animateTo(closest.position)
                             viewModel.getStation(closest.title)
                         }
                     }
@@ -104,14 +105,6 @@ class MapFragment : Fragment() {
         viewModel.station.observe(viewLifecycleOwner) { station ->
             sharedMiniPlayerViewModel.startPlayer(station)
         }
-
-        // Handle advice
-        /*viewModel.advice.observe(viewLifecycleOwner) { advice ->
-            binding.adviceView.text = advice
-        }*/
-
-        // Get an advice every time the fragment view is recreated
-        //viewModel.getAdvice()
 
         return binding.root
     }

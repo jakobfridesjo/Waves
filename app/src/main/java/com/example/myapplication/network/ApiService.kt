@@ -47,7 +47,7 @@ interface RadioBrowserApiService {
     @GET("stations/topclick")
     suspend fun getTopClickedStations(
         @Query("hidebroken") hideBroken: String = "true",
-        @Query("limit") limit: Int = 1000000,
+        @Query("limit") limit: Int = 100000,
         @Query("geo") geo: String = "true"
     ): List<Station>
 
@@ -60,7 +60,7 @@ interface RadioBrowserApiService {
     @GET("stations/topvote")
     suspend fun getTopVotedStations(
         @Query("hidebroken") hideBroken: String = "true",
-        @Query("limit") limit: Int = 1000000,
+        @Query("limit") limit: Int = 100000,
         @Query("geo") geo: String = "true"
     ): List<Station>
 
@@ -74,7 +74,7 @@ interface RadioBrowserApiService {
     @GET("stations/search")
     suspend fun searchStationsByName(
         @Query("hidebroken") hideBroken: String = "true",
-        @Query("limit") limit: Int = 1000000,
+        @Query("limit") limit: Int = 100000,
         @Query("geo") geo: String = "true",
         @Query("name") name: String = ""
     ): List<Station>

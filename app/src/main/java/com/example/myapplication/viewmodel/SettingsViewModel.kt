@@ -19,9 +19,9 @@ class SettingsViewModel (application: Application) : AndroidViewModel(applicatio
     init {
         // Defines the settings list items
         _settingsList.value = listOf(
-            Setting("Equalizer", "baseline_equalizer_24"),
+            Setting("Equalizer", "ic_equalizer"),
             /* TODO Should be able to set the maximum number of stations to fetch */
-            Setting("Station count limit", "baseline_radio_24")
+            Setting("Station count limit", "ic_search_checked")
         )
     }
 

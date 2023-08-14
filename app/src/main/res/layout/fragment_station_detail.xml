@@ -135,7 +135,7 @@
             android:id="@+id/mapViewStatus"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@drawable/baseline_location_off_80"
+            android:background="@drawable/ic_location_off_80"
             app:layout_constraintBottom_toBottomOf="@+id/mapView"
             app:layout_constraintEnd_toEndOf="@+id/mapView"
             app:layout_constraintStart_toStartOf="@+id/mapView"
